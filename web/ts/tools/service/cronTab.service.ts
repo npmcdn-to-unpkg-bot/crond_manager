@@ -9,7 +9,7 @@ import {CronTabModel} from "../model/cronTabModel";
 export class CronTabService {
 
     private heroesUrl = 'app/heroes';  // URL to web api
-    private cronUrl = 'http://dev.tools.cn:1002/index.php?r=tools/get-crontabs';
+    private cronUrl = '/index.php?r=tools/get-crontabs';
     constructor(private http: Http) { }
 
     getCronTabs(): Promise<CronTabModel[]>{

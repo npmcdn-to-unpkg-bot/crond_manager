@@ -11,7 +11,7 @@ var CronTabService = (function () {
     function CronTabService(http) {
         this.http = http;
         this.heroesUrl = 'app/heroes'; // URL to web api
-        this.cronUrl = 'http://dev.tools.cn:1002/index.php?r=tools/get-crontabs';
+        this.cronUrl = '/index.php?r=tools/get-crontabs';
     }
     CronTabService.prototype.getCronTabs = function () {
         debugger;
