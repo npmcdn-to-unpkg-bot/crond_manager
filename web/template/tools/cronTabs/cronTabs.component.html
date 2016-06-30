@@ -1,0 +1,9 @@
+<ul class="list-group">
+    <li *ngFor="let cronTab of cronTabs" class="list-group-item">
+        <span>{{ cronTab.id }}</span>{{ cronTab.name }}
+        <span class="label label-danger">New</span>
+    </li>
+</ul>
+<div class="alert alert-warning" role="alert">
+    <strong>Warning!</strong> Better check yourself, you're not looking too good.
+</div>
