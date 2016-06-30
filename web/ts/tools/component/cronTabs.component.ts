@@ -25,7 +25,7 @@ export class CronTabComponent implements OnInit{
 
     ngOnInit(){
         //this.cronTabs = this.cronService.getCronTabs();
-debugger
+
         this.cronService
             .getCronTabs()
             .then(r => this.cronTabs = r)

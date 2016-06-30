@@ -28,7 +28,6 @@ var HeroDetailComponent = (function () {
     };
     HeroDetailComponent.prototype.save = function () {
         var _this = this;
-        debugger;
         this.heroService
             .save(this.hero)
             .then(function (hero) {

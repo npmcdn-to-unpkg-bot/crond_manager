@@ -31,7 +31,7 @@ export class HeroDetailComponent implements OnInit {
       this.hero = new Hero();
     }
   }
-  save() {debugger
+  save() {
     this.heroService
         .save(this.hero)
         .then(hero => {

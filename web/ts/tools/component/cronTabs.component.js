@@ -16,9 +16,8 @@ var CronTabComponent = (function () {
         this.error = null;
     }
     CronTabComponent.prototype.ngOnInit = function () {
-        var _this = this;
         //this.cronTabs = this.cronService.getCronTabs();
-        debugger;
+        var _this = this;
         this.cronService
             .getCronTabs()
             .then(function (r) { return _this.cronTabs = r; })
