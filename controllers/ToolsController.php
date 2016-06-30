@@ -26,7 +26,7 @@ class ToolsController extends Controller
          * @var $svr CrondServerService
          */
         $svr = \yii::createObject(CrondServerService::class);
-        return json_encode($svr->getCrondServers()); 
+        return json_encode($svr->getCrondServers());
         return json_encode([
             ['id'=>1,'name'=>'te11'],
             ['id'=>2,'name'=>'te12'],
