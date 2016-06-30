@@ -13,14 +13,14 @@ export class CronTabService {
     constructor(private http: Http) { }
 
     getCronTabs(): Promise<CronTabModel[]>{
-debugger;
+
         let headers = new Headers();
         headers.append('Content-Type', 'application/json');
         let tmp = [];
         return this.http.get(this.cronUrl, headers)
             .toPromise()
             .then(r=> r.json());
-debugger;
+
         return tmp;
         let data = [
             {id: 11, name: 'Mr. Nice'},

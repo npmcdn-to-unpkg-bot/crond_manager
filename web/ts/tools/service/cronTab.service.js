@@ -14,14 +14,12 @@ var CronTabService = (function () {
         this.cronUrl = '/index.php?r=tools/get-crontabs';
     }
     CronTabService.prototype.getCronTabs = function () {
-        debugger;
         var headers = new http_1.Headers();
         headers.append('Content-Type', 'application/json');
         var tmp = [];
         return this.http.get(this.cronUrl, headers)
             .toPromise()
             .then(function (r) { return r.json(); });
-        debugger;
         return tmp;
         var data = [
             { id: 11, name: 'Mr. Nice' },
