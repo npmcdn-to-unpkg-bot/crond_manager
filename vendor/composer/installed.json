@@ -931,5 +931,108 @@
             "faker",
             "yii2"
         ]
+    },
+    {
+        "name": "symfony/process",
+        "version": "v2.8.8",
+        "version_normalized": "2.8.8.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/symfony/process.git",
+            "reference": "89f33c16796415ccfd8bb3cf8d520cbb79899bfe"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://packagist.phpcomposer.com/files/symfony/process/89f33c16796415ccfd8bb3cf8d520cbb79899bfe.zip",
+            "reference": "89f33c16796415ccfd8bb3cf8d520cbb79899bfe",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.9"
+        },
+        "time": "2016-06-29 05:29:29",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "2.8-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Symfony\\Component\\Process\\": ""
+            },
+            "exclude-from-classmap": [
+                "/Tests/"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Fabien Potencier",
+                "email": "fabien@symfony.com"
+            },
+            {
+                "name": "Symfony Community",
+                "homepage": "https://symfony.com/contributors"
+            }
+        ],
+        "description": "Symfony Process Component",
+        "homepage": "https://symfony.com"
+    },
+    {
+        "name": "yzalis/crontab",
+        "version": "1.0.4",
+        "version_normalized": "1.0.4.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/yzalis/Crontab.git",
+            "reference": "c5e4b21599cdeada94e922832ce361fc5dd42d22"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://packagist.phpcomposer.com/files/yzalis/Crontab/c5e4b21599cdeada94e922832ce361fc5dd42d22.zip",
+            "reference": "c5e4b21599cdeada94e922832ce361fc5dd42d22",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.0",
+            "symfony/process": "~2.1"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "~4.5"
+        },
+        "time": "2015-10-28 17:24:26",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "1.0.x-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "Crontab": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Benjamin Laugueux",
+                "email": "benjamin@yzalis.com"
+            }
+        ],
+        "description": "Create, manage or delete crontab and jobs with php.",
+        "keywords": [
+            "cron",
+            "cron job",
+            "crontab"
+        ]
     }
 ]

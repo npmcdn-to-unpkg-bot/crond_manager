@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "479407875c975e7dbee0aefcb85e62d5",
-    "content-hash": "5c27dd23827e5c153817a7f3f5d227c6",
+    "hash": "c0c0d5bb570e48d6a1155f136c90f62a",
+    "content-hash": "3f813948ee4f92b6fb936052e7827c3b",
     "packages": [
         {
             "name": "bower-asset/bootstrap",
@@ -353,6 +353,55 @@
             "time": "2015-06-06 14:19:39"
         },
         {
+            "name": "symfony/process",
+            "version": "v2.8.8",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/process.git",
+                "reference": "89f33c16796415ccfd8bb3cf8d520cbb79899bfe"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://packagist.phpcomposer.com/files/symfony/process/89f33c16796415ccfd8bb3cf8d520cbb79899bfe.zip",
+                "reference": "89f33c16796415ccfd8bb3cf8d520cbb79899bfe",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.9"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.8-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\Process\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony Process Component",
+            "homepage": "https://symfony.com",
+            "time": "2016-06-29 05:29:29"
+        },
+        {
             "name": "yiisoft/yii2",
             "version": "2.0.8",
             "source": {
@@ -592,6 +641,56 @@
                 "yii2"
             ],
             "time": "2016-03-17 03:58:49"
+        },
+        {
+            "name": "yzalis/crontab",
+            "version": "1.0.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/yzalis/Crontab.git",
+                "reference": "c5e4b21599cdeada94e922832ce361fc5dd42d22"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://packagist.phpcomposer.com/files/yzalis/Crontab/c5e4b21599cdeada94e922832ce361fc5dd42d22.zip",
+                "reference": "c5e4b21599cdeada94e922832ce361fc5dd42d22",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0",
+                "symfony/process": "~2.1"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.5"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Crontab": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Benjamin Laugueux",
+                    "email": "benjamin@yzalis.com"
+                }
+            ],
+            "description": "Create, manage or delete crontab and jobs with php.",
+            "keywords": [
+                "cron",
+                "cron job",
+                "crontab"
+            ],
+            "time": "2015-10-28 17:24:26"
         }
     ],
     "packages-dev": [
