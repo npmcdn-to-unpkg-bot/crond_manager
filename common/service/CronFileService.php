@@ -70,7 +70,7 @@ class CronFileService
         }
         $dirInfo=\Yii::$app->basePath."/cron_logs/info/".$guid;
         $dirError=\Yii::$app->basePath."/cron_logs/error/".$guid;
-        $cmdTemplate = ' . /etc/profile;echo starton:;/bin/date;%s;echo endon:;/bin/date 1>%s.log 2>%s.log';
+        $cmdTemplate = ' . /etc/profile;/bin/date;%s;1>>%s.log 2>>%s.log';
         $command = sprintf($cmdTemplate,$command,$dirInfo,$dirError);
 
 
