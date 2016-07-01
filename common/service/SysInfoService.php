@@ -39,10 +39,10 @@ class SysInfoService
         if (!empty($error)) {
             $memInfo = $error;
         }else if (preg_match("/Mem\s*:\s*(\d*)\s*(\d*)/i", $output, $match)) {
-            $total =round( $match[1]/1024);
-            $used = round($match[2]/1024);
+            $total =ceil( $match[1]/1024/1024);
+            $used = round($match[2]/1024/1024,2);
             $pecent = round( $used/$total * 100).'%' ;
-            $memInfo = sprintf('%s/%s MB（%s）',$used,$total,$pecent);
+            $memInfo = sprintf('%s/%s GB（%s）',$used,$total,$pecent);
         } else {
             $memInfo = '无法获取';
         }
