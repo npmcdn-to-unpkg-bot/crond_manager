@@ -26,11 +26,6 @@ class Job extends BaseJob
         }
     }
 
-    public $JobName;
-    public $Category;
-    public $IsEanble;
-    public $ModifyOn;
-
     public function parseGuid($guidLine){
         $guid = '';
         if (preg_match("/#GUID\s*(.*)/i",$guidLine, $match)) {
@@ -38,8 +33,6 @@ class Job extends BaseJob
         }
         return $guid;
     }
-
-
 
     /**
      * Parse crontab line into Job object
@@ -177,7 +170,7 @@ class Job extends BaseJob
 
         // Create / Recreate a line in the crontab
         $line = sprintf("#GUID ").$this->getGuid().PHP_EOL;
-        $line = $line.trim(implode(" ", $this->getEntries()));
+        $line = $line.trim(implode(" ", $this->getEntries())).PHP_EOL;;
 
         return $line;
     }

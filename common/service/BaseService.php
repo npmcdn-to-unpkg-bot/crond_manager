@@ -11,5 +11,8 @@ namespace app\common\service;
 
 class BaseService
 {
-
+    public function __construct()
+    {
+        $this->_db = \yii::$app->getDb();;
+    }
 }

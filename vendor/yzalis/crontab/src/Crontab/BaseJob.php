@@ -22,37 +22,37 @@ class BaseJob
     /**
      * @var string
      */
-    protected $guid = "";
+    public $guid = "";
 
     /**
      * @var string
      */
-    protected $minute = "0";
+    public $minute = "0";
 
     /**
      * @var string
      */
-    protected $hour = "*";
+    public $hour = "*";
 
     /**
      * @var string
      */
-    protected $dayOfMonth = "*";
+    public $dayOfMonth = "*";
 
     /**
      * @var string
      */
-    protected $month = "*";
+    public $month = "*";
 
     /**
      * @var string
      */
-    protected $dayOfWeek = "*";
+    public $dayOfWeek = "*";
 
     /**
      * @var string
      */
-    protected $command = null;
+    public $command = null;
 
     /**
      * @var string
