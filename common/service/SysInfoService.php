@@ -20,14 +20,14 @@ class SysInfoService
             $cpuInfo = $cpu['error'];
         }
         else{
-            $cpuInfo = $cpu['cpu-model'];
+            $cpuInfo = $cpu['cpu_model'];
         }
         $memory = $this->GetMemoryInfo();
         if(!empty($memory['error'])){
             $memoryInfo = $memory['error'];
         }
         else{
-            $memoryInfo = $memory['memory-info'];
+            $memoryInfo = $memory['memory_info'];
         }
         $result = [
             'rtnCode' => 0, //-1失败
@@ -50,7 +50,7 @@ class SysInfoService
             $id = $svrInfo['id'];
             $url = $host.'/index.php?r=sysinfo/sample-sys-info';
             $sysinfo = json_decode($serverService->request_get($url, []));
-            $logService->addLog($id,$sysinfo['cpu-percent'],$sysinfo['memory-percent']);
+            $logService->addLog($id,$sysinfo->data->cpu_percent,$sysinfo->data->memory_percent);
         }
     }
 
@@ -58,8 +58,8 @@ class SysInfoService
         $cpu = $this->GetCpuInfo();
         $memory = $this->GetMemoryInfo();
         return [
-            'cpu-percent'=> $cpu['cpu-percent'],
-            'memory-percent'=>$memory['memory-percent']
+            'cpu_percent'=> $cpu['cpu_percent'],
+            'memory_percent'=>$memory['memory_percent']
         ];
     }
 
@@ -111,8 +111,8 @@ class SysInfoService
         }
 
         return [
-            'cpu-model'=>$cpuModel,
-            'cpu-percent' =>$cpuPercent,
+            'cpu_model'=>$cpuModel,
+            'cpu_percent' =>$cpuPercent,
             'error'=>$errorInfo,
         ];
     }
@@ -145,10 +145,10 @@ class SysInfoService
         }
 
         return [
-            'memory-total'=>$total,
-            'memory-used'=>$used,
-            'memory-percent'=>$pecent,
-            'memory-info'=>$memInfo,
+            'memory_total'=>$total,
+            'memory_used'=>$used,
+            'memory_percent'=>$pecent,
+            'memory_info'=>$memInfo,
             'error'=>$errorInfo,
         ];
     }
