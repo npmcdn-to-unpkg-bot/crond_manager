@@ -25,7 +25,7 @@ class CronFileService
 
     public function GetScripts()
     {
-        $dir=\Yii::$app->basePath."\cron_scripts";
+        $dir=\Yii::$app->basePath."/cron_scripts";
         $files=scandir($dir);
         $result = [];
         foreach($files as $file){
@@ -41,8 +41,8 @@ class CronFileService
 
     public function GetScriptContent($fileName)
     {
-        $dir=\Yii::$app->basePath."\cron_scripts";
-        $fullName = $dir.'\\'.$fileName;
+        $dir=\Yii::$app->basePath."/cron_scripts";
+        $fullName = $dir.'/'.$fileName;
         $content = file_get_contents($fullName);
         return $content;
     }
