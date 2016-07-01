@@ -1,5 +1,5 @@
-#!/bin/bash
-#ÏÂÐÐ¶ÓÁÐÏû·Ñ
+ï»¿#!/bin/bash
+#ä¸‹è¡Œé˜Ÿåˆ—æ¶ˆè´¹
 PHP=/webser/php5/bin/php
 LIST=/webser/www/qmyxcg_backend/yii
 SHELL=/yunke-to-erp/save-cst-opp

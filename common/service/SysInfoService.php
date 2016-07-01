@@ -26,10 +26,10 @@ class SysInfoService
         }else if (preg_match("/model name\s*:\s*(.*)/i", $output, $match)) {
             $cpuInfo = $match[1];
         } else {
-            $cpuInfo = 'ÎÞ·¨»ñÈ¡';
+            $cpuInfo = 'æ— æ³•èŽ·å–';
         }
 
-        //ÄÚ´æ
+        //å†…å­˜
         $process = new Process("free");
         $process->run();
         $error = $process->getErrorOutput();
@@ -39,16 +39,16 @@ class SysInfoService
         if (!empty($error)) {
             $memInfo = $error;
         }else if (preg_match("/Mem\s*:\s*(\d*)\s*(\d*)/i", $output, $match)) {
-            $total =round( $match[1]/1024);
-            $used = round($match[2]/1024);
+            $total =ceil( $match[1]/1024/1024);
+            $used = round($match[2]/1024/1024,2);
             $pecent = round( $used/$total * 100).'%' ;
-            $memInfo = sprintf('%s/%s MB£¨%s£©',$used,$total,$pecent);
+            $memInfo = sprintf('%s/%s GBï¼ˆ%sï¼‰',$used,$total,$pecent);
         } else {
-            $memInfo = 'ÎÞ·¨»ñÈ¡';
+            $memInfo = 'æ— æ³•èŽ·å–';
         }
 
         $result = [
-            'rtnCode' => 0, //-1Ê§°Ü
+            'rtnCode' => 0, //-1å¤±è´¥
             'cpu' => $cpuInfo,
             'memory' => $memInfo,
             'disk' => ""

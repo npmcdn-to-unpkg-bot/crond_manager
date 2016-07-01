@@ -26,7 +26,7 @@ class Job extends BaseJob
         }
     }
 
-    public function parseGuid($guidLine){
+    public static function parseGuid($guidLine){
         $guid = '';
         if (preg_match("/#GUID\s*(.*)/i",$guidLine, $match)) {
             $guid = $match[1];
