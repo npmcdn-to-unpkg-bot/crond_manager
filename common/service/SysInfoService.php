@@ -16,14 +16,14 @@ class SysInfoService
     public function GetSysInfo()
     {
         $cpu = $this->GetCpuInfo();
-        if(array_key_exists('error',$cpu)){
+        if(!empty($cpu['error'])){
             $cpuInfo = $cpu['error'];
         }
         else{
             $cpuInfo = $cpu['cpu-model'];
         }
         $memory = $this->GetMemoryInfo();
-        if(array_key_exists('error',$memory)){
+        if(!empty($memory['error'])){
             $memoryInfo = $memory['error'];
         }
         else{
@@ -48,8 +48,8 @@ class SysInfoService
         foreach($servers as $svrInfo){
             $host = $svrInfo['api_host'];
             $id = $svrInfo['id'];
-            $url = $host.'/index.php?r=sysinfo/sampling-sysinfo&id='.$id;
-            $sysinfo = json_decode($svr->request_get($url, []));
+            $url = $host.'/index.php?r=sysinfo/sample-sys-info';
+            $sysinfo = json_decode($serverService->request_get($url, []));
             $logService->addLog($id,$sysinfo['cpu-percent'],$sysinfo['memory-percent']);
         }
     }
@@ -103,6 +103,9 @@ class SysInfoService
             $nice = $match[3];
             $idle = $match[4];
             $cpuPercent = round( 100*($user+$nice+$system)/($user + $nice+ $system + $idle),2);
+            if($cpuPercent==0){
+                $cpuPercent=1;
+            }
         } else {
             $errorInfo = $errorInfo.PHP_EOL.'无法获取cpu usage percent';
         }
@@ -115,25 +118,30 @@ class SysInfoService
     }
 
     public function GetMemoryInfo(){
-        $process = new Process("free");
-        $process->run();
-        $error = $process->getErrorOutput();
-        $output = $process->getOutput();
+        if(\Yii::$app->params['debug']){
+            $output = 'Mem:       1018508     949396      69112          0      68616     274796';
+        }
+        else{
+            $process = new Process("free");
+            $process->run();
+            $error = $process->getErrorOutput();
+            $output = $process->getOutput();
+        }
 
         $total =null;
         $used = null;
         $pecent = null ;
         $memInfo = null;
-        $error = null;
+        $errorInfo = null;
         if (!empty($error)) {
-            $error = $error;
+            $errorInfo = $error;
         }else if (preg_match("/Mem\s*:\s*(\d*)\s*(\d*)/i", $output, $match)) {
             $total =ceil( $match[1]/1024/1024);
             $used = round($match[2]/1024/1024,2);
             $pecent = round( $used/$total * 100) ;
             $memInfo = sprintf('%s/%s GB（%s）',$used,$total,$pecent.'%');
         } else {
-            $error = '无法获取内存信息';
+            $errorInfo = '无法获取内存信息';
         }
 
         return [
@@ -141,7 +149,7 @@ class SysInfoService
             'memory-used'=>$used,
             'memory-percent'=>$pecent,
             'memory-info'=>$memInfo,
-            'error'=>$error,
+            'error'=>$errorInfo,
         ];
     }
 }
