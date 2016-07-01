@@ -1,0 +1,13 @@
+
+<div *ngFor="let crondSvr of crondServers" class="col-sm-12 region-box" style="border:1px solid #ccd6e0;padding:0;margin:0 2px;margin-bottom:8px;">
+    <div class="region-bar">
+        <a (click)="gotoDetail(crondSvr)" >{{ crondSvr.name }}</a>
+    </div>
+    <div class="region-content">
+        <p>服务器状态:<span>正常</span></p>
+        <p>CPU:<span>{{ crondSvr.cpu_model }}</span></p>
+        <p>内存:<span>{{ crondSvr.memory }}</span></p>
+        <p>磁盘:<span>{{ crondSvr.disk }}</span></p>
+
+    </div>
+</div>

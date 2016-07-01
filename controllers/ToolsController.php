@@ -22,7 +22,7 @@ class ToolsController extends Controller
         echo 'test123';
     }
 
-    public function actionGetCrontabs(){
+    public function actionGetCrondservers(){
         /**
          * @var $svr CrondServerService
          */
@@ -32,5 +32,9 @@ class ToolsController extends Controller
             ['id'=>1,'name'=>'te11'],
             ['id'=>2,'name'=>'te12'],
         ]);
+    }
+
+    public function actionGetCrontabs(){
+
     }
 }

@@ -8,28 +8,31 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
  * Created by Administrator on 2016/6/28.
  */
 var core_1 = require('@angular/core');
-var CronTabComponent = (function () {
-    function CronTabComponent(cronService) {
+var CrondServerComponent = (function () {
+    function CrondServerComponent(router, cronService) {
+        this.router = router;
         this.cronService = cronService;
-        this.cronTabs = [];
+        this.crondServers = [];
         this.error = null;
     }
-    CronTabComponent.prototype.ngOnInit = function () {
-        //this.cronTabs = this.cronService.getCronTabs();
+    CrondServerComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.cronService
-            .getCronTabs()
-            .then(function (r) { return _this.cronTabs = r; })
+            .getCrondServers()
+            .then(function (r) { return _this.crondServers = r; })
             .catch(function (error) { return _this.error = error; });
     };
-    CronTabComponent = __decorate([
+    CrondServerComponent.prototype.gotoDetail = function (model) {
+        this.router.navigate(['/crontabs']);
+    };
+    CrondServerComponent = __decorate([
         core_1.Component({
             selector: 'my-crontabs',
-            templateUrl: 'template/tools/cronTabs/cronTabs.component.html',
-            styleUrls: ['css/tools/dashboard.component.css']
+            templateUrl: 'template/tools/cronTabs/crondServer.component.html',
+            styleUrls: ['css/tools/app.component.css']
         })
-    ], CronTabComponent);
-    return CronTabComponent;
+    ], CrondServerComponent);
+    return CrondServerComponent;
 })();
-exports.CronTabComponent = CronTabComponent;
-//# sourceMappingURL=cronTabs.component.js.map
+exports.CrondServerComponent = CrondServerComponent;
+//# sourceMappingURL=crondServer.component.js.map

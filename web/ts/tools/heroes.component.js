@@ -5,50 +5,19 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 var core_1 = require('@angular/core');
-var hero_detail_component_1 = require('./hero-detail.component');
 var HeroesComponent = (function () {
     function HeroesComponent(router, heroService) {
         this.router = router;
         this.heroService = heroService;
-        this.addingHero = false;
     }
     HeroesComponent.prototype.getHeroes = function () {
         var _this = this;
-        this.heroService
-            .getHeroes()
-            .then(function (heroes) { return _this.heroes = heroes; })
-            .catch(function (error) { return _this.error = error; });
-    };
-    HeroesComponent.prototype.addHero = function () {
-        this.addingHero = true;
-        this.selectedHero = null;
-    };
-    HeroesComponent.prototype.close = function (savedHero) {
-        this.addingHero = false;
-        if (savedHero) {
-            this.getHeroes();
-        }
-    };
-    HeroesComponent.prototype.deleteHero = function (hero, event) {
-        var _this = this;
-        event.stopPropagation();
-        this.heroService
-            .delete(hero)
-            .then(function (res) {
-            _this.heroes = _this.heroes.filter(function (h) { return h !== hero; });
-            if (_this.selectedHero === hero) {
-                _this.selectedHero = null;
-            }
-        })
-            .catch(function (error) { return _this.error = error; });
+        this.heroService.getHeroes().then(function (heroes) { return _this.heroes = heroes; });
     };
     HeroesComponent.prototype.ngOnInit = function () {
         this.getHeroes();
     };
-    HeroesComponent.prototype.onSelect = function (hero) {
-        this.selectedHero = hero;
-        this.addingHero = false;
-    };
+    HeroesComponent.prototype.onSelect = function (hero) { this.selectedHero = hero; };
     HeroesComponent.prototype.gotoDetail = function () {
         this.router.navigate(['/detail', this.selectedHero.id]);
     };
@@ -56,16 +25,15 @@ var HeroesComponent = (function () {
         core_1.Component({
             selector: 'my-heroes',
             templateUrl: 'app/heroes.component.html',
-            styleUrls: ['app/heroes.component.css'],
-            directives: [hero_detail_component_1.HeroDetailComponent]
+            styleUrls: ['app/heroes.component.css']
         })
     ], HeroesComponent);
     return HeroesComponent;
 })();
 exports.HeroesComponent = HeroesComponent;
 /*
- Copyright 2016 Google Inc. All Rights Reserved.
- Use of this source code is governed by an MIT-style license that
- can be found in the LICENSE file at http://angular.io/license
- */ 
+Copyright 2016 Google Inc. All Rights Reserved.
+Use of this source code is governed by an MIT-style license that
+can be found in the LICENSE file at http://angular.io/license
+*/ 
 //# sourceMappingURL=heroes.component.js.map

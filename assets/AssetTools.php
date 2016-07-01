@@ -17,7 +17,7 @@ class AssetTools extends AssetBase
 
     public $js = [
 
-        'ts/systemjs.config.js',
+        'systemjs.config.js',
     ];
 
     public $depends = [

@@ -1,27 +1,23 @@
-import { Component }          from '@angular/core';
-import { ROUTER_DIRECTIVES }  from '@angular/router';
+import { Component } from '@angular/core';
+import { ROUTER_DIRECTIVES } from '@angular/router';
 
-import { HeroService }        from './hero.service';
-import {CronTabComponent} from './component/cronTabs.component';
-import {CronTabService} from './service/cronTab.service';
+import { HeroService } from './hero.service';
 
 @Component({
   selector: 'my-app',
-
   template: `
     <h1>{{title}}</h1>
     <nav>
       <a [routerLink]="['/dashboard']" routerLinkActive="active">Dashboard</a>
       <a [routerLink]="['/heroes']" routerLinkActive="active">Heroes</a>
-      <a [routerLink]="['/crontabs']" routerLinkActive="active">Crontabs</a>
+      <a [routerLink]="['/crondservers']" routerLinkActive="active">cronds</a>
     </nav>
     <router-outlet></router-outlet>
   `,
-  styleUrls: ['css/tools/app.component.css'],
+  styleUrls: ['app/app.component.css'],
   directives: [ROUTER_DIRECTIVES],
   providers: [
-    HeroService,
-      CronTabService
+    HeroService
   ]
 })
 export class AppComponent {
@@ -30,7 +26,7 @@ export class AppComponent {
 
 
 /*
- Copyright 2016 Google Inc. All Rights Reserved.
- Use of this source code is governed by an MIT-style license that
- can be found in the LICENSE file at http://angular.io/license
- */
+Copyright 2016 Google Inc. All Rights Reserved.
+Use of this source code is governed by an MIT-style license that
+can be found in the LICENSE file at http://angular.io/license
+*/

@@ -3,13 +3,13 @@ import { provideRouter, RouterConfig }  from '@angular/router';
 import { DashboardComponent } from './dashboard.component';
 import { HeroesComponent } from './heroes.component';
 import { HeroDetailComponent } from './hero-detail.component';
-import {CronTabComponent} from "./component/cronTabs.component";
+import {CrondServerComponent} from "../../app/component/crondServer.component";
 
 export const routes: RouterConfig = [
   {
     path: '',
-    redirectTo: '/crontabs',
-
+    redirectTo: '/dashboard',
+    terminal: true
   },
   {
     path: 'dashboard',
@@ -24,10 +24,9 @@ export const routes: RouterConfig = [
     component: HeroesComponent
   },
   {
-    path: 'crontabs',
-    component: CronTabComponent,
-    terminal: true
-  },
+    path: 'crondservers',
+    component: CrondServerComponent
+  }
 ];
 
 export const APP_ROUTER_PROVIDERS = [
@@ -36,7 +35,7 @@ export const APP_ROUTER_PROVIDERS = [
 
 
 /*
- Copyright 2016 Google Inc. All Rights Reserved.
- Use of this source code is governed by an MIT-style license that
- can be found in the LICENSE file at http://angular.io/license
- */
+Copyright 2016 Google Inc. All Rights Reserved.
+Use of this source code is governed by an MIT-style license that
+can be found in the LICENSE file at http://angular.io/license
+*/
