@@ -27,6 +27,10 @@ class ComposerStaticInit0fb7274d6961f08116ce84af67e50509
         array (
             'cebe\\markdown\\' => 14,
         ),
+        'S' => 
+        array (
+            'Symfony\\Component\\Process\\' => 26,
+        ),
         'F' => 
         array (
             'Faker\\' => 6,
@@ -70,6 +74,10 @@ class ComposerStaticInit0fb7274d6961f08116ce84af67e50509
         array (
             0 => __DIR__ . '/..' . '/cebe/markdown',
         ),
+        'Symfony\\Component\\Process\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/process',
+        ),
         'Faker\\' => 
         array (
             0 => __DIR__ . '/..' . '/fzaninotto/faker/src/Faker',
@@ -89,6 +97,13 @@ class ComposerStaticInit0fb7274d6961f08116ce84af67e50509
             'Diff' => 
             array (
                 0 => __DIR__ . '/..' . '/phpspec/php-diff/lib',
+            ),
+        ),
+        'C' => 
+        array (
+            'Crontab' => 
+            array (
+                0 => __DIR__ . '/..' . '/yzalis/crontab/src',
             ),
         ),
     );
