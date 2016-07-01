@@ -19,5 +19,16 @@ class AssetBootstrap extends AssetBundle
     public $js = [
         'js/bootstrap.min.js',
         //'js/npm.js',
+        'js/umd/alert.js',
+        'js/umd/button.js',
+        'js/umd/carousel.js',
+        'js/umd/collapse.js',
+        'js/umd/dropdown.js',
+        'js/umd/modal.js',
+        'js/umd/scrollspy.js',
+        'js/umd/tab.js',
+        'js/umd/tooltip.js',
+        'js/umd/util.js',
+        'js/umd/popover.js',
     ];
 }

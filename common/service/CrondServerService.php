@@ -35,14 +35,22 @@ class CrondServerService
      * @return \app\models\CrondServer[]|array
      * @throws \yii\base\InvalidConfigException
      */
-    function getCronTabs($svrid){
+    function getCronTabs($svrid, $tag='', $key=''){
         /**
          * @var $query CronTab
          */
         $query = \yii::createObject(CronTab::className());
-        return $query->find()
-            ->where(['server_id'=>$svrid])
-            ->asArray()->all();
+        $query2 = $query->find()
+            ->where(['server_id'=>$svrid]);
+        if(!empty($tag)){
+            $query2 = $query2->andWhere(['like','tag',$tag]);
+        }
+
+        if(!empty($key)){
+            $query2 = $query2->andWhere(['like','cron_name',$key]);
+        }
+
+        return $query2->asArray()->all();
     }
 
     function getCronTab($id){
@@ -52,12 +60,50 @@ class CrondServerService
         $query = \yii::createObject(CronTab::className());
         return $query->find()
             ->where(['id'=>$id])
-            ->asArray()->one();
+            ->asArray(true)
+            ->one();
     }
 
     function saveCronTab($model){
+        $isnew=false;
+        if(empty($model['id'])){
+            $isnew = true;
+        }
+
         $tab =new CronTab();
-        $tab->load($model);
-        $tab->save();
+        if(!$isnew){
+            /**
+             * @var $query CronTab
+             */
+            $query = \yii::createObject(CronTab::className());
+            $tab = $query->find()
+                ->where(['id'=>$model['id']])
+                ->one();
+        }
+
+        $tab->setAttributes($model,false);
+
+        if($isnew){
+            $tab->save();
+        }else{
+            $tab->update();
+        }
+
+    }
+
+    function deleteCronTab($id){
+        CronTab::deleteAll(['id'=>$id]);
+    }
+
+    function getTags($sid){
+        /**
+         * @var $query CronTab
+         */
+        $query = \yii::createObject(CronTab::className());
+        return $query->find()
+            ->select(['tag'])
+            ->where(['server_id'=>$sid])
+            ->distinct()
+            ->asArray()->all();
     }
 }

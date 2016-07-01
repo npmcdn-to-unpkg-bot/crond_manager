@@ -13,8 +13,13 @@ var CronTabsComponent = (function () {
         this.cronService = cronService;
         this.route = route;
         this.cronTabs = [];
+        this.tags = [];
+        this.selectedTag = null;
+        this.searchKey = '';
         this.error = null;
         this.navigated = false;
+        this.svrId = null;
+        this.selectedAll = false;
     }
     CronTabsComponent.prototype.ngOnInit = function () {
         var _this = this;
@@ -22,9 +27,12 @@ var CronTabsComponent = (function () {
         this.sub = this.route.params.subscribe(function (params) {
             if (params['id'] !== undefined) {
                 var id = +params['id'];
+                _this.svrId = id;
                 _this.navigated = true;
-                _this.cronService.getCronTabs(id)
+                _this.cronService.getCronTabs(id, '', '')
                     .then(function (r) { return _this.cronTabs = r; });
+                _this.cronService.getTags(id)
+                    .then(function (r) { return _this.tags = r; });
             }
             else {
                 _this.navigated = false;
@@ -32,8 +40,49 @@ var CronTabsComponent = (function () {
             }
         });
     };
+    CronTabsComponent.prototype.filter = function () {
+        var _this = this;
+        var tag = this.selectedTag.tag;
+        var key = this.searchKey;
+        this.cronService.getCronTabs(this.svrId, tag, key)
+            .then(function (r) { return _this.cronTabs = r; });
+    };
     CronTabsComponent.prototype.ngOnDestroy = function () {
         this.sub.unsubscribe();
+    };
+    CronTabsComponent.prototype.onSelectTag = function (tag) {
+        this.selectedTag = tag;
+        this.searchKey = '';
+        this.filter();
+    };
+    CronTabsComponent.prototype.selectAll = function () {
+        var m = this;
+        this.cronTabs.forEach(function (o) {
+            o.selected = !m.selectedAll;
+        });
+    };
+    CronTabsComponent.prototype.enable = function () {
+        var ids = this.getSelectedIds();
+        this.cronService.enable(ids);
+    };
+    CronTabsComponent.prototype.disable = function () {
+        var ids = this.getSelectedIds();
+        this.cronService.disable(ids);
+    };
+    CronTabsComponent.prototype.delete = function () {
+        var ids = this.getSelectedIds();
+        this.cronService.deleteByIds(ids);
+    };
+    CronTabsComponent.prototype.getSelectedIds = function () {
+        var ids = [];
+        this.cronTabs.forEach(function (o) {
+            if (o.selected === true) {
+                console.info(o.id);
+                ids.push(o.id);
+            }
+        });
+        console.info(JSON.stringify(ids));
+        return ids;
     };
     CronTabsComponent = __decorate([
         core_1.Component({
