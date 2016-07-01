@@ -179,7 +179,9 @@ class CrontabFileHandler
 
         $this->writeToFile($crontab, $tmpFile);
 
-        $process = new Process($this->crontabCommand($crontab).' '.$tmpFile);
+        $cmd = $this->crontabCommand($crontab).' '.$tmpFile;
+        echo 'cmd:'.$cmd;
+        $process = new Process($cmd);
         $process->run();
 
         $this->error  = $process->getErrorOutput();
@@ -203,7 +205,9 @@ class CrontabFileHandler
             throw new \InvalidArgumentException('File '.$filename.' is not writable.');
         }
 
-        file_put_contents($filename, $crontab->render().PHP_EOL);
+        $fileContent = $crontab->render().PHP_EOL;
+        echo 'content:'.$fileContent;
+        file_put_contents($filename, $fileContent);
 
         return $this;
     }

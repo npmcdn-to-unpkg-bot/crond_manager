@@ -49,15 +49,6 @@ class CronFileService
 
     public function SaveJob($guid='',$minute='*',$hour='*',$day='*',$month='*',$week='*',$command='',$scriptfile='')
     {
-        $dirInfo=\Yii::$app->basePath."/cron_scripts/";
-        if(!empty($scriptfile)){
-            $command = '/bin/bash '.$dirInfo.$scriptfile;
-        }
-        $dirInfo=\Yii::$app->basePath."/cron_logs/info/".$guid;
-        $dirError=\Yii::$app->basePath."/cron_logs/error/".$guid;
-        $cmdTemplate = '* . /etc/profile;echo ¿ªÊ¼Ê±¼ä£º;/bin/date;%s;echo ½áÊøÊ±¼ä£º;/bin/date;1>%s.log 2>%s.log';
-        $command = sprintf($cmdTemplate,$command,$dirInfo,$dirError);
-
         $crontab = new Crontab();
         $jobs = $crontab->getJobs();
 
@@ -68,10 +59,20 @@ class CronFileService
             $crontab->addJob($job);
         }else{
             if(!array_key_exists($guid,$jobs)){
-                throw new \Exception('×÷Òµ²»´æÔÚ');
+                throw new \Exception('ä½œä¸šä¸å­˜åœ¨');
             }
             $job = $jobs[$guid];
         }
+
+        $dirInfo=\Yii::$app->basePath."/cron_scripts/";
+        if(!empty($scriptfile)){
+            $command = '/bin/bash '.$dirInfo.$scriptfile;
+        }
+        $dirInfo=\Yii::$app->basePath."/cron_logs/info/".$guid;
+        $dirError=\Yii::$app->basePath."/cron_logs/error/".$guid;
+        $cmdTemplate = ' . /etc/profile;echo starton:;/bin/date;%s;echo endon:;/bin/date 1>%s.log 2>%s.log';
+        $command = sprintf($cmdTemplate,$command,$dirInfo,$dirError);
+
 
         $job->setMinute($minute)
             ->setHour($hour)
