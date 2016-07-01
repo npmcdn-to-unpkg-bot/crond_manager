@@ -47,7 +47,7 @@
   ngPackageNames.forEach(function(pkgName) {
 
     // Bundled (~40 requests):
-    packages['@angular/'+pkgName] = { main: pkgName + '.umd.js', defaultExtension: 'js' };
+    packages['@angular/'+pkgName] = { main: '/bundles/' +pkgName + '.umd.js', defaultExtension: 'js' };
 
     // Individual files (~300 requests):
     //packages['@angular/'+pkgName] = { main: 'index.js', defaultExtension: 'js' };

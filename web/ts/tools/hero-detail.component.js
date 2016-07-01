@@ -7,24 +7,29 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var core_1 = require('@angular/core');
 var hero_1 = require('./hero');
 var HeroDetailComponent = (function () {
-    function HeroDetailComponent(heroService, routeParams) {
+    function HeroDetailComponent(heroService, route) {
         this.heroService = heroService;
-        this.routeParams = routeParams;
+        this.route = route;
         this.close = new core_1.EventEmitter();
         this.navigated = false; // true if navigated here
     }
     HeroDetailComponent.prototype.ngOnInit = function () {
         var _this = this;
-        if (this.routeParams.get('id') !== null) {
-            var id = +this.routeParams.get('id');
-            this.navigated = true;
-            this.heroService.getHero(id)
-                .then(function (hero) { return _this.hero = hero; });
-        }
-        else {
-            this.navigated = false;
-            this.hero = new hero_1.Hero();
-        }
+        this.sub = this.route.params.subscribe(function (params) {
+            if (params['id'] !== undefined) {
+                var id = +params['id'];
+                _this.navigated = true;
+                _this.heroService.getHero(id)
+                    .then(function (hero) { return _this.hero = hero; });
+            }
+            else {
+                _this.navigated = false;
+                _this.hero = new hero_1.Hero();
+            }
+        });
+    };
+    HeroDetailComponent.prototype.ngOnDestroy = function () {
+        this.sub.unsubscribe();
     };
     HeroDetailComponent.prototype.save = function () {
         var _this = this;
@@ -52,16 +57,16 @@ var HeroDetailComponent = (function () {
     HeroDetailComponent = __decorate([
         core_1.Component({
             selector: 'my-hero-detail',
-            templateUrl: 'template/tools/hero-detail.component.html',
-            styleUrls: ['css/tools/hero-detail.component.css']
+            templateUrl: 'app/hero-detail.component.html',
+            styleUrls: ['app/hero-detail.component.css']
         })
     ], HeroDetailComponent);
     return HeroDetailComponent;
 })();
 exports.HeroDetailComponent = HeroDetailComponent;
 /*
-Copyright 2016 Google Inc. All Rights Reserved.
-Use of this source code is governed by an MIT-style license that
-can be found in the LICENSE file at http://angular.io/license
-*/ 
+ Copyright 2016 Google Inc. All Rights Reserved.
+ Use of this source code is governed by an MIT-style license that
+ can be found in the LICENSE file at http://angular.io/license
+ */ 
 //# sourceMappingURL=hero-detail.component.js.map

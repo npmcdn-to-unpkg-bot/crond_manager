@@ -2,7 +2,6 @@
  * Created by Administrator on 2016/6/28.
  */
 import { Component, OnInit } from '@angular/core';
-import { Router }           from '@angular/router-deprecated';
 
 import{CronTabModel} from '../model/cronTabModel';
 import{CronTabService} from '../service/cronTab.service';
@@ -18,7 +17,6 @@ export class CronTabComponent implements OnInit{
     cronTabs = [];
     error = null;
     constructor(
-        private router: Router,
         private cronService: CronTabService
     ) {
     }

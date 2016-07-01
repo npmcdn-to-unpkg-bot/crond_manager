@@ -14,14 +14,14 @@ export class HeroService {
 
   getHeroes(): Promise<Hero[]> {
     return this.http.get(this.heroesUrl)
-               .toPromise()
-               .then(response => response.json().data)
-               .catch(this.handleError);
+        .toPromise()
+        .then(response => response.json().data)
+        .catch(this.handleError);
   }
 
   getHero(id: number) {
     return this.getHeroes()
-               .then(heroes => heroes.filter(hero => hero.id === id)[0]);
+        .then(heroes => heroes.filter(hero => hero.id === id)[0]);
   }
 
   save(hero: Hero): Promise<Hero>  {
@@ -38,9 +38,9 @@ export class HeroService {
     let url = `${this.heroesUrl}/${hero.id}`;
 
     return this.http
-               .delete(url, headers)
-               .toPromise()
-               .catch(this.handleError);
+        .delete(url, headers)
+        .toPromise()
+        .catch(this.handleError);
   }
 
   // Add new Hero
@@ -49,10 +49,10 @@ export class HeroService {
       'Content-Type': 'application/json'});
 
     return this.http
-               .post(this.heroesUrl, JSON.stringify(hero), {headers: headers})
-               .toPromise()
-               .then(res => res.json().data)
-               .catch(this.handleError);
+        .post(this.heroesUrl, JSON.stringify(hero), {headers: headers})
+        .toPromise()
+        .then(res => res.json().data)
+        .catch(this.handleError);
   }
 
   // Update existing Hero
@@ -63,10 +63,10 @@ export class HeroService {
     let url = `${this.heroesUrl}/${hero.id}`;
 
     return this.http
-               .put(url, JSON.stringify(hero), {headers: headers})
-               .toPromise()
-               .then(() => hero)
-               .catch(this.handleError);
+        .put(url, JSON.stringify(hero), {headers: headers})
+        .toPromise()
+        .then(() => hero)
+        .catch(this.handleError);
   }
 
   private handleError(error: any) {
@@ -76,8 +76,9 @@ export class HeroService {
 }
 
 
+
 /*
-Copyright 2016 Google Inc. All Rights Reserved.
-Use of this source code is governed by an MIT-style license that
-can be found in the LICENSE file at http://angular.io/license
-*/
+ Copyright 2016 Google Inc. All Rights Reserved.
+ Use of this source code is governed by an MIT-style license that
+ can be found in the LICENSE file at http://angular.io/license
+ */
