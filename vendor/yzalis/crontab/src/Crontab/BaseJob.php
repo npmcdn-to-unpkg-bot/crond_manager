@@ -22,6 +22,11 @@ class BaseJob
     /**
      * @var string
      */
+    protected $guid = "";
+
+    /**
+     * @var string
+     */
     protected $minute = "0";
 
     /**

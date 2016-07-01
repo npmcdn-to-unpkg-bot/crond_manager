@@ -26,11 +26,10 @@ class TestController extends BaseController
             ->setDayOfMonth('*')
             ->setMonth('1,6')
             ->setDayOfWeek('*')
-            ->setCommand('myAmazingCommandToRunPeriodically')
+            ->setCommand('test2')
         ;
 
         $crontab = new Crontab();
-        $crontab->setUser('root');
         $crontab->addJob($job);
         $handler = $crontab->write();
         echo '1';
@@ -48,7 +47,7 @@ class TestController extends BaseController
 
     public function actionGetSysInfo()
     {
-        //CPU
+         //CPU
         $process = new Process("more /proc/cpuinfo |grep -i model");
         $process->run();
         $error = $process->getErrorOutput();
@@ -80,19 +79,26 @@ class TestController extends BaseController
         } else {
             $memInfo = '无法获取';
         }
-        echo $cpuInfo;
-        echo $memInfo;
+
         $result = [
             'rtnCode' => 0, //-1为失败
             'cpu' => $cpuInfo,
             'memory' => $memInfo,
             'disk' => ""
         ];
-        echo json_encode($result);
-        //$response = \Yii::$app->response;
-        //$response->format = $response::FORMAT_JSON;
-        //$response->data = 'ddd';
-        //$this->exportJson($result);
+
+        $response = \Yii::$app->response;
+        $response->format = $response::FORMAT_JSON;
+        $response->data = 'ddd';
+        $this->exportJson($result);
+    }
+
+    public function actionGetCrontab()
+    {
+        $crontab = new Crontab();
+        $content = $crontab->render();
+        echo $content;
+
     }
 
 

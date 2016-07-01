@@ -2,6 +2,7 @@
 
 namespace Crontab;
 
+use common\support\StringHelper;
 use Crontab\BaseJob;
 
 /**
@@ -25,6 +26,14 @@ class Job extends BaseJob
         }
     }
 
+    static function getGuid($guidLine){
+        $guid = '';
+        if (preg_match("/#GUID\s*(.*)/i",$guidLine, $match)) {
+            $guid = $match[1];
+        }
+        return $guid;
+    }
+
     /**
      * Parse crontab line into Job object
      *
@@ -33,7 +42,7 @@ class Job extends BaseJob
      * @return Job
      * @throws \InvalidArgumentException
      */
-    static function parse($jobLine)
+    static function parse($jobLine,$guid)
     {
         // split the line
         $parts = preg_split('@ @', $jobLine, NULL, PREG_SPLIT_NO_EMPTY);
@@ -91,6 +100,7 @@ class Job extends BaseJob
         // set the Job object
         $job = new Job();
         $job
+            ->setGuid($guid)
             ->setMinute($parts[0])
             ->setHour($parts[1])
             ->setDayOfMonth($parts[2])
@@ -258,6 +268,15 @@ class Job extends BaseJob
         }
 
         return $this->hash;
+    }
+
+    public function setGuid($guid){
+        if(empty($guid)){
+            $this->guid = StringHelper::uuid();
+        }
+        else{
+            $this->guid = $guid;
+        }
     }
 
     /**
