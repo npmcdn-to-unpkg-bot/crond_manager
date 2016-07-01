@@ -1,7 +1,7 @@
 
 <h1 class="title-bar" style="margin-top: 8px;margin-bottom: 8px;">操作日志</h1>
 <nav class="navbar navbar-light bg-faded">
-    <form class="form-inline navbar-form pull-right">
+    <form class="form-inline navbar-form pull-left">
         <input class="form-control" type="text" placeholder="Search" [(ngModel)]="searchKey">
         <button class="btn btn-success-outline" type="submit"  (click)="filter()">Search</button>
     </form>
@@ -16,7 +16,7 @@
     </tr>
     </thead>
     <tbody>
-    <tr  *ngFor="let log of operLogs">
+    <tr  *ngFor="let log of logs">
         <td>{{ log.log_time }}</td>
         <td>{{ log.content }}</td>
         <td>{{ log.oper_status }}</td>

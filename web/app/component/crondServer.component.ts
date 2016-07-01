@@ -31,4 +31,8 @@ export class CrondServerComponent implements OnInit{
     gotoDetail(model) {
         this.router.navigate(['/crontabs', model.id]);
     }
+
+    viewOperLog(){
+        this.router.navigate(['/operlogs']);
+    }
 }

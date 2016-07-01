@@ -25,6 +25,9 @@ var CrondServerComponent = (function () {
     CrondServerComponent.prototype.gotoDetail = function (model) {
         this.router.navigate(['/crontabs', model.id]);
     };
+    CrondServerComponent.prototype.viewOperLog = function () {
+        this.router.navigate(['/operlogs']);
+    };
     CrondServerComponent = __decorate([
         core_1.Component({
             selector: 'my-crontabs',

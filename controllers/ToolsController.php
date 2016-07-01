@@ -195,13 +195,24 @@ class ToolsController extends BaseController
         /**
          * @var $svr CrondServerService
          */
-        /*$svr = \yii::createObject(CrondServerService::class);
+        $svr = \yii::createObject(CrondServerService::class);
         $svrInfo = $svr->getCrondServer($model['server_id']);
         $host = $svrInfo['api_host'];
-        $frequency =
+        $frequency = $model['frequency'];
+        $freArr = explode(' ', $frequency);
         $url = $host.'/index.php?r=cron-file/save-job';
-        $scripts = json_decode($svr->request_get($url, []));
-*/
+        $minute=$freArr[0];
+        $hour=$freArr[1];
+        $day=$freArr[2];
+        $month=$freArr[3];
+        $week=$freArr[4];
+        $file=$model['cron_file'];
+
+        $parm = ['guid'=>$model['jog_guid'],'minute'=>$minute,'hour'=>$hour,'day'=>$day,
+            'month'=>$month,'week'=>$week,'command'=>'','scriptfile'=>$file
+        ];
+        $result = $svr->request_get($url, $parm);
+
         /**
          * @var $svr CrondServerService
          */
@@ -221,7 +232,7 @@ class ToolsController extends BaseController
          * @var $svr OperLogService
          */
         $svr = \yii::createObject(OperLogService::class);
-        return $svr->getLogs($key);
+        return json_encode($svr->getLogs($key));
     }
 
     private function log($msg, $status){
