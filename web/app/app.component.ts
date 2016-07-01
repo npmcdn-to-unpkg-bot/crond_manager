@@ -9,8 +9,8 @@ import {CronTabService} from "./service/cronTab.service";
   selector: 'my-app',
 
   template: `
-    <h1>{{title}}</h1>
-    <nav>
+    
+    <nav style="display: none;">
       <a [routerLink]="['/dashboard']" routerLinkActive="active">Dashboard</a>
       <a [routerLink]="['/heroes']" routerLinkActive="active">Heroes</a>
       <a [routerLink]="['/crondservers']" routerLinkActive="active">Cronds</a>

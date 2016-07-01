@@ -51,7 +51,7 @@
         <td>{{ cronTab.frequency }}</td>
         <td>{{ cronTab.cron_file }}</td>
         <td>
-            <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal">
+            <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal" (click)="openModel(cronTab)">
                 编辑
             </button>
         </td>
@@ -75,45 +75,45 @@
                 <form>
                     <fieldset class="form-group">
                         <label for="exampleSelect1">任务类型</label>
-                        <select class="form-control" id="exampleSelect1">
+                        <select class="form-control" id="exampleSelect1" [(ngModel)]="editModel.tag">
                             <option>ERP接口</option>
                             <option>全民营销</option>
                         </select>
                     </fieldset>
                     <fieldset class="form-group">
                         <label for="exampleInputEmail1">任务名称</label>
-                        <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
+                        <input type="text" class="form-control" id="exampleInputEmail1" placeholder="输入任务名称" [(ngModel)]="editModel.cron_name">
                         <small class="text-muted">We'll never share your email with anyone else.</small>
                     </fieldset>
                     <fieldset class="form-group">
                         <label for="exampleSelect1">用户</label>
-                        <select class="form-control" id="exampleSelect1">
+                        <select class="form-control" id="exampleSelect1" [(ngModel)]="editModel.cron_user">
                             <option>www</option>
                         </select>
                     </fieldset>
                     <fieldset class="form-group">
                         <label for="exampleSelect1">定时周期</label>
-                        <select class="form-control" id="exampleSelect1">
-                            <option>www</option>
-                        </select>
+                        <input type="text" class="form-control" id="exampleInputEmail1" placeholder="输入任务名称" [(ngModel)]="editModel.frequency">
+
                     </fieldset>
 
                     <fieldset class="form-group">
                         <label for="exampleSelect1">脚本</label>
-                        <select class="form-control" id="exampleSelect1">
-                            <option>www</option>
+                        <select class="form-control" id="idCronFile" [(ngModel)]="editModel.cron_file" (change)="onSelectScript()">
+                            <option *ngFor="let file of scriptsList">{{ file }}</option>
                         </select>
                     </fieldset>
+
                     <fieldset class="form-group">
                         <label for="exampleTextarea">脚本内容</label>
-                        <textarea class="form-control" id="exampleTextarea" rows="3"></textarea>
+                        <textarea class="form-control" id="exampleTextarea" disabled rows="3" [(ngModel)]="scriptContent"></textarea>
                     </fieldset>
 
                 </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
+                <button type="button" class="btn btn-primary" (click)="saveModel()">Save changes</button>
             </div>
         </div>
     </div>

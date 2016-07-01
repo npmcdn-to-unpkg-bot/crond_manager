@@ -14,12 +14,30 @@ var CrondServerService = (function () {
     function CrondServerService(http) {
         this.http = http;
         this.cronUrl = '/index.php?r=tools/get-crondservers';
+        this.getCrondScriptUrl = '/index.php?r=tools/get-crond-scripts';
+        this.getCrondScriptContentUrl = '/index.php?r=tools/get-crond-script-content';
     }
     CrondServerService.prototype.getCrondServers = function () {
         var headers = new http_1.Headers();
         headers.append('Content-Type', 'application/json');
         var tmp = [];
         return this.http.get(this.cronUrl, headers)
+            .toPromise()
+            .then(function (r) { return r.json(); });
+    };
+    CrondServerService.prototype.getCrondScripts = function ($id) {
+        var headers = new http_1.Headers();
+        headers.append('Content-Type', 'application/json');
+        var tmp = [];
+        return this.http.get(this.getCrondScriptUrl + "&id=" + $id, headers)
+            .toPromise()
+            .then(function (r) { return r.json(); });
+    };
+    CrondServerService.prototype.getCrondScriptContent = function (id, file) {
+        var headers = new http_1.Headers();
+        headers.append('Content-Type', 'application/json');
+        var tmp = [];
+        return this.http.get(this.getCrondScriptContentUrl + "&id=" + id + "&file=" + file, headers)
             .toPromise()
             .then(function (r) { return r.json(); });
     };

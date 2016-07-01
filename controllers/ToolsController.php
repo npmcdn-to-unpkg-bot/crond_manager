@@ -9,11 +9,13 @@ namespace app\controllers;
 
 
 use app\common\service\CrondServerService;
+use app\common\service\OperLogService;
 use yii\log\Logger;
 use yii\web\Controller;
 
-class ToolsController extends Controller
+class ToolsController extends BaseController
 {
+    public $enableCsrfValidation = false;
     public function actionIndex(){
         return $this->render('index');
     }
@@ -27,7 +29,70 @@ class ToolsController extends Controller
          * @var $svr CrondServerService
          */
         $svr = \yii::createObject(CrondServerService::class);
-        return json_encode($svr->getCrondServers());
+        $svrLst = $svr->getCrondServers();
+        foreach($svrLst as &$svrItem){
+            $url = $svrItem['api_host'].'/index.php?r=sysinfo/get-sys-info';
+            $svrInfo = $svr->request_get($url, []);
+            if(empty($svrInfo) || json_decode($svrInfo, true)['retCode'] != '0'){
+                continue;
+            }
+            $svrInfoModel = json_decode($svrInfo, true);
+            $svrItem['cpu_model'] = $svrInfoModel['data']['cpu'];
+            $svrItem['memory'] = $svrInfoModel['data']['memory'];
+            $svrItem['disk'] = $svrInfoModel['data']['disk'];
+        }
+
+        return json_encode($svrLst);
+    }
+
+    public function actionGetCrondserversStatus(){
+        /**
+         * @var $svr CrondServerService
+         */
+        $svr = \yii::createObject(CrondServerService::class);
+        $svrLst = $svr->getCrondServers();
+
+        foreach($svrLst as $svrItem){
+            $url = $svrItem['api_host'].'/index.php?r=sysinfo/get-sys-info';
+            $svr->request_get($url, null);
+        }
+        return json_encode($svrLst);
+    }
+
+    public function actionGetCrondServer(){
+        $id = \yii::$app->request->get('id');
+        /**
+         * @var $svr CrondServerService
+         */
+        $svr = \yii::createObject(CrondServerService::class);
+        return json_encode($svr->getCrondServer($id));
+    }
+
+    public function actionGetCrondScripts(){
+        $id = \yii::$app->request->get('id');
+        /**
+         * @var $svr CrondServerService
+         */
+        $svr = \yii::createObject(CrondServerService::class);
+        $svrInfo = $svr->getCrondServer($id);
+        $host = $svrInfo['api_host'];
+        $url = $host.'/index.php?r=cron-file/get-scripts';
+        $scripts = json_decode($svr->request_get($url, []));
+        return json_encode($scripts->data);
+    }
+
+    public function actionGetCrondScriptContent(){
+        $id = \yii::$app->request->get('id');
+        $file = \yii::$app->request->get('file');
+        /**
+         * @var $svr CrondServerService
+         */
+        $svr = \yii::createObject(CrondServerService::class);
+        $svrInfo = $svr->getCrondServer($id);
+        $host = $svrInfo['api_host'];
+        $url = $host.'/index.php?r=cron-file/get-script-content&fileName='.$file;
+        $scripts = json_decode($svr->request_get($url, []));
+        return json_encode($scripts->data);
     }
 
     public function actionGetCrontabs(){
@@ -59,17 +124,24 @@ class ToolsController extends Controller
          * @var $svr CrondServerService
          */
         $svr = \yii::createObject(CrondServerService::class);
-        foreach($ids as $id){
-            $model = $svr->getCronTab($id);
+        try{
+            foreach($ids as $id){
+                $model = $svr->getCronTab($id);
 
-            if(empty($model)){
-                continue;
+                if(empty($model)){
+                    continue;
+                }
+
+                $model['status'] = '启用';
+
+                $svr->saveCronTab($model);
             }
 
-            $model['status'] = '启用';
-
-            $svr->saveCronTab($model);
+            $this->log('启用任务', OperLogService::OPER_STATUS_SUCC);
+        }catch(\Exception $ex){
+            $this->log('启用任务', OperLogService::OPER_STATUS_FAILED);
         }
+
     }
 
     public function actionDisable(){
@@ -79,15 +151,21 @@ class ToolsController extends Controller
          * @var $svr CrondServerService
          */
         $svr = \yii::createObject(CrondServerService::class);
-        foreach($ids as $id){
-            $model = $svr->getCronTab($id);
-            if(empty($model)){
-                continue;
-            }
+        try{
+            foreach($ids as $id){
+                $model = $svr->getCronTab($id);
+                if(empty($model)){
+                    continue;
+                }
 
-            $model['status'] = '禁用';
-            $svr->saveCronTab($model);
+                $model['status'] = '禁用';
+                $svr->saveCronTab($model);
+            }
+            $this->log('禁用任务', OperLogService::OPER_STATUS_SUCC);
+        }catch(\Exception $ex){
+            $this->log('禁用任务', OperLogService::OPER_STATUS_FAILED);
         }
+
     }
 
     public function actionDeleteByIds(){
@@ -97,8 +175,56 @@ class ToolsController extends Controller
          * @var $svr CrondServerService
          */
         $svr = \yii::createObject(CrondServerService::class);
-        foreach($ids as $id){
-           $svr->deleteCronTab($id);
+        try{
+            foreach($ids as $id){
+                $svr->deleteCronTab($id);
+            }
+            $this->log('删除任务', OperLogService::OPER_STATUS_SUCC);
+        }catch(\Exception $ex){
+            $this->log('删除任务', OperLogService::OPER_STATUS_FAILED);
         }
+
+    }
+
+    public function actionSaveCronTab(){
+        $strData = \yii::$app->request->getRawBody();
+        echo $strData;
+        $model = json_decode($strData,true);
+
+        //保存脚本
+        /**
+         * @var $svr CrondServerService
+         */
+        /*$svr = \yii::createObject(CrondServerService::class);
+        $svrInfo = $svr->getCrondServer($model['server_id']);
+        $host = $svrInfo['api_host'];
+        $frequency =
+        $url = $host.'/index.php?r=cron-file/save-job';
+        $scripts = json_decode($svr->request_get($url, []));
+*/
+        /**
+         * @var $svr CrondServerService
+         */
+        $svr = \yii::createObject(CrondServerService::class);
+        try{
+            $svr->saveCronTab($model);
+            $this->log('保存任务', OperLogService::OPER_STATUS_SUCC);
+        }catch(\Exception $ex){
+            $this->log('保存任务', OperLogService::OPER_STATUS_FAILED);
+        }
+
+    }
+
+    public function actionGetOperLogs(){
+        $key = \yii::$app->request->get('key');
+        /**
+         * @var $svr OperLogService
+         */
+        $svr = \yii::createObject(OperLogService::class);
+        return $svr->getLogs($key);
+    }
+
+    private function log($msg, $status){
+        OperLogService::write($msg,'管理员',$status);
     }
 }
