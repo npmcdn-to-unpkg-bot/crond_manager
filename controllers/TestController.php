@@ -94,7 +94,56 @@ class TestController extends BaseController
         $crontab = new Crontab();
         $job = $crontab->getJobs();
         $this->exportJson($job);
+    }
 
+
+    public function actionGetScripts()
+    {
+        $dir=\Yii::$app->basePath."\cron_scripts";
+        $files=scandir($dir);
+        $result = [];
+        foreach($files as $file){
+            if($file=="." || $file=='..'){
+                continue;
+            }
+            //filesize($dir.$file);
+            $result[]=$file;
+        }
+        $this->exportJson($result);
+
+    }
+
+    public function actionGetScriptContent($fileName)
+    {
+        $dir=\Yii::$app->basePath."\cron_scripts";
+        $fullName = $dir.'\\'.$fileName;
+        $content = file_get_contents($fullName);
+        $this->exportJson($content);
+    }
+
+    public function actionAddJob($minute='*',$hour='*',$day='*',$month='*',$week='*',$command='*')
+    {
+        $job = new Job();
+        $job
+            ->setMinute($minute)
+            ->setHour($hour)
+            ->setDayOfMonth($day)
+            ->setMonth($month)
+            ->setDayOfWeek($week)
+            ->setCommand($command)
+        ;
+
+        $crontab = new Crontab();
+        $crontab->addJob($job);
+        $handler = $crontab->write();
+        $error = $handler->getError();
+        $output = $handler->getOutput();
+        if(!empty($error)){
+            $this->exportJson([],-1,$error,false);
+        }
+        else{
+            $this->exportJson([],0,$output,true);
+        }
     }
 
 
