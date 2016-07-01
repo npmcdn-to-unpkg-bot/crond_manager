@@ -58,7 +58,11 @@ h4 {
 	  min-width: 60px;
 	}
 }
-
+.region-bar{
+	border-bottom: 1px solid #ccd6e0!important;
+	background-color: #f8f9fb!important;
+	height: 38px!important;
+}
 
 /*
 Copyright 2016 Google Inc. All Rights Reserved.

@@ -20,12 +20,9 @@ var CronTabService = (function () {
         return this.http.get(this.cronUrl, headers)
             .toPromise()
             .then(function (r) { return r.json(); });
-        return tmp;
-        var data = [
-            { id: 11, name: 'Mr. Nice' },
-            { id: 12, name: 'Narco' },
-        ];
-        return data;
+    };
+    CronTabService.prototype.getServersNum = function () {
+        return 123;
     };
     CronTabService.prototype.getHeroes = function () {
         return this.http.get(this.heroesUrl)

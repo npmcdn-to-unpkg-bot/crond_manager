@@ -1,5 +1,5 @@
 /**
- * Created by Administrator on 2016/6/28.
+ * Created by Administrator on 2016/7/1.
  */
 import { Component, OnInit } from '@angular/core';
 
@@ -10,20 +10,20 @@ import {HeroService} from "../hero.service";
 @Component({
     selector: 'my-crontabs',
     templateUrl: 'template/tools/cronTabs/cronTabs.component.html',
-    styleUrls: ['css/tools/dashboard.component.css']
+    styleUrls: ['css/tools/app.component.css']
 })
 
-export class CronTabComponent implements OnInit{
+export class CronTabsComponent implements OnInit{
     cronTabs = [];
     error = null;
     constructor(
         private cronService: CronTabService
-    ) {
+    ) {debugger
     }
 
     ngOnInit(){
         //this.cronTabs = this.cronService.getCronTabs();
-
+debugger
         this.cronService
             .getCronTabs()
             .then(r => this.cronTabs = r)

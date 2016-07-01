@@ -24,7 +24,7 @@ class AppAsset extends AssetBundle
         'https://npmcdn.com/core-js/client/shim.min.js',
         'https://npmcdn.com/zone.js@0.6.12?main=browser',
         'https://npmcdn.com/reflect-metadata@0.1.3',
-        'https://npmcdn.com/rxjs@5.0.0-beta.6/bundles/Rx.umd.js',
+        //'https://npmcdn.com/rxjs@5.0.0-beta.6/bundles/Rx.umd.js',
         'https://npmcdn.com/systemjs@0.19.27/dist/system.src.js'
         /*'https://npmcdn.com/core-js/client/shim.min.js',
         'https://npmcdn.com/zone.js@0.6.12?main=browser',

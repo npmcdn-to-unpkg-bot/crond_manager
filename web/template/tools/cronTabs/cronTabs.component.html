@@ -1,9 +1,13 @@
-<ul class="list-group">
-    <li *ngFor="let cronTab of cronTabs" class="list-group-item">
-        <span>{{ cronTab.id }}</span>{{ cronTab.name }}
-        <span class="label label-danger">New</span>
-    </li>
-</ul>
-<div class="alert alert-warning" role="alert">
-    <strong>Warning!</strong> Better check yourself, you're not looking too good.
+<h1 class="title-bar" style="margin-top: 8px;margin-bottom: 8px;">任务分类</h1>
+
+<h1 class="title-bar" style="margin-top: 8px;margin-bottom: 8px;">任务列表</h1>
+<div *ngFor="let cronTab of cronTabs" class="col-sm-12 region-box" style="border:1px solid #ccd6e0;padding:0;margin:0 2px;margin-bottom:8px;">
+    <div class="region-bar">{{ cronTab.name }}</div>
+    <div class="region-content">
+        <p>服务器状态:<span>正常</span></p>
+        <p>CPU:<span>{{ cronTab.cpu_model }}</span></p>
+        <p>内存:<span>{{ cronTab.memory }}</span></p>
+        <p>磁盘:<span>{{ cronTab.disk }}</span></p>
+
+    </div>
 </div>

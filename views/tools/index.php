@@ -10,7 +10,6 @@ use app\assets\AssetBootstrap;
 AssetTools::register($this);
 AssetBootstrap::register($this);
 
-echo 'test';
 ?>
 
 <script>

@@ -27,6 +27,22 @@ nav a.router-link-active {
   color: #039be5;
 }
 
+.title-bar{
+  border-left:3px solid #88B7E0!important;
+}
+.region-box{
+  border: 1px solid #ccd6e0!important;
+  padding: 0;
+}
+.region-bar{
+  border-bottom: 1px solid #ccd6e0!important;
+  background-color: #f8f9fb!important;
+  height: 38px!important;
+  padding:9px 3px 0;
+}
+.region-content{
+  padding: 28px 24px;
+}
 
 /*
 Copyright 2016 Google Inc. All Rights Reserved.

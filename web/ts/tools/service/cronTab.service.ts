@@ -20,13 +20,10 @@ export class CronTabService {
         return this.http.get(this.cronUrl, headers)
             .toPromise()
             .then(r=> r.json());
+    }
 
-        return tmp;
-        let data = [
-            {id: 11, name: 'Mr. Nice'},
-            {id: 12, name: 'Narco'},
-        ];
-        return data;
+    getServersNum(){
+        return 123;
     }
 
     getHeroes(): Promise<Hero[]> {
