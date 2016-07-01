@@ -24,6 +24,13 @@ class SysinfoController extends BaseController
         $this->exportJson($result);
     }
 
+    public function actionSampleSysInfo()
+    {
+        $sysInfoService = new SysInfoService();
+        $result = $sysInfoService->GetSysInfo();
+        $this->exportJson($result);
+    }
+
 
 
 }

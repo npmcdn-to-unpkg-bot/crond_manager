@@ -7,9 +7,9 @@ use Yii;
 /**
  * This is the model class for table "crond_server_perf_log".
  *
- * @property string $id
- * @property string $crond_server_id
- * @property string $cpu
+ * @property integer $id
+ * @property integer $crond_server_id
+ * @property integer $cpu
  * @property integer $memory
  * @property datetime $sampling_time
  */
@@ -41,19 +41,10 @@ class CrondServerPerfLog extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'crond_server_id' => 'crond_server_id',
-            'cpu' => 'Api Host',
+            'cpu' => 'cpu',
             'memory' => 'Memory',
-            'sampling_time' => 'Disk'
+            'sampling_time' => 'sampling_time'
 
         ];
-    }
-
-    /**
-     * @inheritdoc
-     * @return CrondServerQuery the active query used by this AR class.
-     */
-    public static function find()
-    {
-        return new CrondServerQuery(get_called_class());
     }
 }
