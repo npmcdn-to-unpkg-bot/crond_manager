@@ -30,6 +30,6 @@ class TestController extends Controller
 
         $crontab = new Crontab();
         $crontab->addJob($job);
-        $crontab->render();
+        echo $crontab->write();
     }
 }
