@@ -9,6 +9,7 @@ var router_1 = require('@angular/router');
 var hero_service_1 = require('./hero.service');
 var crondServer_service_1 = require("./service/crondServer.service");
 var cronTab_service_1 = require("./service/cronTab.service");
+var operLog_service_1 = require("./service/operLog.service");
 var AppComponent = (function () {
     function AppComponent() {
         this.title = 'Tour of Heroes';
@@ -22,7 +23,8 @@ var AppComponent = (function () {
             providers: [
                 hero_service_1.HeroService,
                 crondServer_service_1.CrondServerService,
-                cronTab_service_1.CronTabService
+                cronTab_service_1.CronTabService,
+                operLog_service_1.OperLogService
             ]
         })
     ], AppComponent);

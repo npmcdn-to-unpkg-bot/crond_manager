@@ -12,7 +12,7 @@ export class OperLogService {
 
     constructor(private http: Http) { }
 
-    getLogs(id, tag, key): Promise<OperLogModel[]>{
+    getLogs(key): Promise<OperLogModel[]>{
         let headers = new Headers();
         headers.append('Content-Type', 'application/json');
 

@@ -10,7 +10,7 @@ import{OperLogService} from '../service/operLog.service';
 
 @Component({
     selector: 'my-crontabs',
-    templateUrl: 'app/template/cronTabs.component.html',
+    templateUrl: 'app/template/operLog.component.html',
     styleUrls: ['css/tools/app.component.css']
 })
 

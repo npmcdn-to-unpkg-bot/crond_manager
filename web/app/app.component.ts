@@ -4,6 +4,7 @@ import { ROUTER_DIRECTIVES }  from '@angular/router';
 import { HeroService }        from './hero.service';
 import {CrondServerService} from "./service/crondServer.service";
 import {CronTabService} from "./service/cronTab.service";
+import {OperLogService} from "./service/operLog.service";
 
 @Component({
   selector: 'my-app',
@@ -22,7 +23,8 @@ import {CronTabService} from "./service/cronTab.service";
   providers: [
     HeroService,
       CrondServerService,
-      CronTabService
+      CronTabService,
+      OperLogService
   ]
 })
 export class AppComponent {

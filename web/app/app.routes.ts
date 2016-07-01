@@ -5,6 +5,7 @@ import { HeroesComponent } from './heroes.component';
 import { HeroDetailComponent } from './hero-detail.component';
 import {CrondServerComponent} from "./component/crondServer.component";
 import {CronTabsComponent} from "./component/cronTabs.component";
+import {OperLogComponent} from "./component/operLog.component";
 
 export const routes: RouterConfig = [
   {
@@ -33,6 +34,10 @@ export const routes: RouterConfig = [
     path: 'crontabs/:id',
     component: CronTabsComponent,
 
+  },
+  {
+    path:'operlogs',
+    component:OperLogComponent
   }
 ];
 
