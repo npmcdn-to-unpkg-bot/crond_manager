@@ -26,13 +26,20 @@ class Job extends BaseJob
         }
     }
 
-    static function getGuid($guidLine){
+    public $JobName;
+    public $Category;
+    public $IsEanble;
+    public $ModifyOn;
+
+    public function parseGuid($guidLine){
         $guid = '';
         if (preg_match("/#GUID\s*(.*)/i",$guidLine, $match)) {
             $guid = $match[1];
         }
         return $guid;
     }
+
+
 
     /**
      * Parse crontab line into Job object
@@ -100,7 +107,6 @@ class Job extends BaseJob
         // set the Job object
         $job = new Job();
         $job
-            ->setGuid($guid)
             ->setMinute($parts[0])
             ->setHour($parts[1])
             ->setDayOfMonth($parts[2])
@@ -113,8 +119,8 @@ class Job extends BaseJob
             ->setLogSize($logSize)
             ->setComments($comments)
             ->setLastRunTime($lastRunTime)
-            ->setStatus($status)
-        ;
+            ->setStatus($status);
+        $job->setGuid($guid);
 
         return $job;
     }
@@ -170,7 +176,8 @@ class Job extends BaseJob
         }
 
         // Create / Recreate a line in the crontab
-        $line = trim(implode(" ", $this->getEntries()));
+        $line = sprintf("#GUID ").$this->getGuid().PHP_EOL;
+        $line = $line.trim(implode(" ", $this->getEntries()));
 
         return $line;
     }
@@ -272,11 +279,15 @@ class Job extends BaseJob
 
     public function setGuid($guid){
         if(empty($guid)){
-            $this->guid = StringHelper::uuid();
+            $this->guid = \app\common\support\StringHelper::uuid();
         }
         else{
             $this->guid = $guid;
         }
+    }
+
+    public function getGuid(){
+        return $this->guid;
     }
 
     /**
@@ -378,9 +389,9 @@ class Job extends BaseJob
      */
     public function setCommand($command)
     {
-        if (!preg_match(self::$_regex['command'], $command)) {
-            throw new \InvalidArgumentException(sprintf('Command "%s" is incorect', $command));
-        }
+        //if (!preg_match(self::$_regex['command'], $command)) {
+        //    throw new \InvalidArgumentException(sprintf('Command "%s" is incorect', $command));
+        //}
 
         $this->command = $command;
 
