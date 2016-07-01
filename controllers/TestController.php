@@ -10,9 +10,10 @@ namespace app\controllers;
 
 use Crontab\Crontab;
 use Crontab\Job;
-use yii\web\Controller;
+use Symfony\Component\Process\Process;
+use app\controllers\BaseController;
 
-class TestController extends Controller
+class TestController extends BaseController
 {
     /**
      *
@@ -29,7 +30,70 @@ class TestController extends Controller
         ;
 
         $crontab = new Crontab();
+        $crontab->setUser('root');
         $crontab->addJob($job);
-        echo $crontab->write();
+        $handler = $crontab->write();
+        echo '1';
+        echo $handler->getError();
+        echo $handler->getOutput();
     }
+
+    public function actionTest2(){
+        $process = new Process("more /proc/cpuinfo |grep -i model");
+        $process->run();
+
+        echo $process->getErrorOutput();
+        echo $process->getOutput();
+    }
+
+    public function actionGetSysInfo()
+    {
+        //CPU
+        $process = new Process("more /proc/cpuinfo |grep -i model");
+        $process->run();
+        $error = $process->getErrorOutput();
+        $output = $process->getOutput();
+
+        $cpuInfo = '';
+        if (!empty($error)) {
+            $cpuInfo = $error;
+        }else if (preg_match("/model name\s*:\s*(.*)/i", $output, $match)) {
+            $cpuInfo = $match[1];
+        } else {
+            $cpuInfo = '无法获取';
+        }
+
+        //内存
+        $process = new Process("free");
+        $process->run();
+        $error = $process->getErrorOutput();
+        $output = $process->getOutput();
+
+        $memInfo = '';
+        if (!empty($error)) {
+            $memInfo = $error;
+        }else if (preg_match("/Mem\s*:\s*(\d*)\s*(\d*)/i", $output, $match)) {
+            $total =round( $match[1]/1024);
+            $used = round($match[2]/1024);
+            $pecent = round( $used/$total * 100).'%' ;
+            $memInfo = sprintf('%s/%s MB（%s）',$used,$total,$pecent);
+        } else {
+            $memInfo = '无法获取';
+        }
+        echo $cpuInfo;
+        echo $memInfo;
+        $result = [
+            'rtnCode' => 0, //-1为失败
+            'cpu' => $cpuInfo,
+            'memory' => $memInfo,
+            'disk' => ""
+        ];
+        echo json_encode($result);
+        //$response = \Yii::$app->response;
+        //$response->format = $response::FORMAT_JSON;
+        //$response->data = 'ddd';
+        //$this->exportJson($result);
+    }
+
+
 }
