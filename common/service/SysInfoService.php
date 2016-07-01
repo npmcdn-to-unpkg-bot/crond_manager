@@ -27,7 +27,7 @@ class SysInfoService
             $memoryInfo = $memory['error'];
         }
         else{
-            $memoryInfo = $cpu['info'];
+            $memoryInfo = $memory['memory-info'];
         }
         $result = [
             'rtnCode' => 0, //-1失败
@@ -38,18 +38,41 @@ class SysInfoService
         return $result;
     }
 
+    public function SamplingAllServer(){
+        /**
+         * @var $svr CrondServerService
+         */
+        $serverService = new CrondServerService();
+        $logService = new CrondServerPerfLogService();
+        $servers = $serverService->getCrondServers();
+        foreach($servers as $svrInfo){
+            $host = $svrInfo['api_host'];
+            $id = $svrInfo['id'];
+            $url = $host.'/index.php?r=sysinfo/sampling-sysinfo&id='.$id;
+            $sysinfo = json_decode($svr->request_get($url, []));
+            $logService->addLog($id,$sysinfo['cpu-percent'],$sysinfo['memory-percent']);
+        }
+    }
+
     public function SamplingSysinfo(){
         $cpu = $this->GetCpuInfo();
         $memory = $this->GetMemoryInfo();
-        $logService = new CrondServerPerfLogService();
-        $logService->addLog(1,$cpu['cpu-percent'],$memory['percent']);
+        return [
+            'cpu-percent'=> $cpu['cpu-percent'],
+            'memory-percent'=>$memory['memory-percent']
+        ];
     }
 
     public function GetCpuInfo(){
-        $process = new Process("more /proc/cpuinfo |grep -i model");
-        $process->run();
-        $error = $process->getErrorOutput();
-        $output = $process->getOutput();
+        if(\Yii::$app->params['debug']){
+            $output = 'model name	: Intel(R) Xeon(R) CPU E5-2650 v2 @ 2.60GHz';
+        }
+        else{
+            $process = new Process("more /proc/cpuinfo |grep -i model");
+            $process->run();
+            $error = $process->getErrorOutput();
+            $output = $process->getOutput();
+        }
 
         $cpuModel = '';
         $errorInfo = '';
@@ -61,10 +84,15 @@ class SysInfoService
             $errorInfo = '无法获取cpu model';
         }
 
-        $process = new Process("top -n 1 |grep Cpu");
-        $process->run();
-        $error = $process->getErrorOutput();
-        $output = $process->getOutput();
+        if(\Yii::$app->params['debug']){
+            $output = 'Cpu(s):  0.0%us,  0.0%sy,  0.0%ni, 99.8%id,  0.0%wa,  0.0%hi,  0.0%si,  0.1%st';
+        }
+        else{
+            $process = new Process("top -n 1 |grep Cpu");
+            $process->run();
+            $error = $process->getErrorOutput();
+            $output = $process->getOutput();
+        }
 
         $cpuPercent = 0;
         if (!empty($error)) {
@@ -96,22 +124,24 @@ class SysInfoService
         $used = null;
         $pecent = null ;
         $memInfo = null;
+        $error = null;
         if (!empty($error)) {
-            $memInfo = $error;
+            $error = $error;
         }else if (preg_match("/Mem\s*:\s*(\d*)\s*(\d*)/i", $output, $match)) {
             $total =ceil( $match[1]/1024/1024);
             $used = round($match[2]/1024/1024,2);
             $pecent = round( $used/$total * 100) ;
             $memInfo = sprintf('%s/%s GB（%s）',$used,$total,$pecent.'%');
         } else {
-            $memInfo = '无法获取';
+            $error = '无法获取内存信息';
         }
 
         return [
-            'total'=>$total,
-            'used'=>$used,
-            'percent'=>$pecent,
-            'info'=>$memInfo
+            'memory-total'=>$total,
+            'memory-used'=>$used,
+            'memory-percent'=>$pecent,
+            'memory-info'=>$memInfo,
+            'error'=>$error,
         ];
     }
 }
