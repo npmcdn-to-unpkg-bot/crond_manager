@@ -96,6 +96,9 @@ a.desc:after {
     color: #fff!important;
 }
 .navbar-brand{
+    height:auto;
+}
+.navbar-header .navbar-brand{
     padding-top: 14px!important;
     background: url(image/cloud.png) no-repeat left 10px;
     padding-left: 25px;

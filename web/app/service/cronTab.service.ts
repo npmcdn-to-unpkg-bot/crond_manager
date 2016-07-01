@@ -10,19 +10,48 @@ export class CronTabService {
 
     private heroesUrl = 'app/heroes';  // URL to web api
     private cronUrl = '/index.php?r=tools/get-crontabs';
+    private getTagUrl = '/index.php?r=tools/get-tags';
+    private enableUrl = '/index.php?r=tools/enable';
+    private disableUrl='/index.php?r=tools/disable';
+    private deleteUrl='/index.php?r=tools/delete';
+    private deleteByIdsUrl = '/index.php?r=tools/delete-by-ids';
     constructor(private http: Http) { }
 
-    getCronTabs(id): Promise<CronTabModel[]>{
+    getCronTabs(id, tag, key): Promise<CronTabModel[]>{
         let headers = new Headers();
         headers.append('Content-Type', 'application/json');
-        let tmp = [];
-        return this.http.get(this.cronUrl+"&id="+id,headers)
+
+        return this.http.get(this.cronUrl+"&id="+id+"&tag="+tag+"&key="+key,headers)
             .toPromise()
             .then(r=> r.json());
     }
 
-    getServersNum(){
-        return 123;
+    getTags(id): Promise<string[]>{
+        let headers = new Headers();
+        headers.append('Content-Type', 'application/json');
+        let tmp = [];
+        return this.http.get(this.getTagUrl+"&id="+id,headers)
+            .toPromise()
+            .then(r=> r.json());
+    }
+
+    enable(ids){
+        let sIds = JSON.stringify(ids);
+        return this.http.get(this.enableUrl+"&ids="+sIds)
+            .toPromise()
+            .then(r=> r.json());
+    }
+    disable(ids){
+        let sIds = JSON.stringify(ids);
+        return this.http.get(this.disableUrl+"&ids="+sIds)
+            .toPromise()
+            .then(r=> r.json());
+    }
+    deleteByIds(ids){
+        let sIds = JSON.stringify(ids);
+        return this.http.get(this.deleteByIdsUrl+"&ids="+sIds)
+            .toPromise()
+            .then(r=> r.json());
     }
 
     getHeroes(): Promise<Hero[]> {

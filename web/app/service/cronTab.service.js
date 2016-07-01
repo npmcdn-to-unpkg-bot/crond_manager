@@ -12,17 +12,44 @@ var CronTabService = (function () {
         this.http = http;
         this.heroesUrl = 'app/heroes'; // URL to web api
         this.cronUrl = '/index.php?r=tools/get-crontabs';
+        this.getTagUrl = '/index.php?r=tools/get-tags';
+        this.enableUrl = '/index.php?r=tools/enable';
+        this.disableUrl = '/index.php?r=tools/disable';
+        this.deleteUrl = '/index.php?r=tools/delete';
+        this.deleteByIdsUrl = '/index.php?r=tools/delete-by-ids';
     }
-    CronTabService.prototype.getCronTabs = function (id) {
+    CronTabService.prototype.getCronTabs = function (id, tag, key) {
         var headers = new http_1.Headers();
         headers.append('Content-Type', 'application/json');
-        var tmp = [];
-        return this.http.get(this.cronUrl + "&id=" + id, headers)
+        return this.http.get(this.cronUrl + "&id=" + id + "&tag=" + tag + "&key=" + key, headers)
             .toPromise()
             .then(function (r) { return r.json(); });
     };
-    CronTabService.prototype.getServersNum = function () {
-        return 123;
+    CronTabService.prototype.getTags = function (id) {
+        var headers = new http_1.Headers();
+        headers.append('Content-Type', 'application/json');
+        var tmp = [];
+        return this.http.get(this.getTagUrl + "&id=" + id, headers)
+            .toPromise()
+            .then(function (r) { return r.json(); });
+    };
+    CronTabService.prototype.enable = function (ids) {
+        var sIds = JSON.stringify(ids);
+        return this.http.get(this.enableUrl + "&ids=" + sIds)
+            .toPromise()
+            .then(function (r) { return r.json(); });
+    };
+    CronTabService.prototype.disable = function (ids) {
+        var sIds = JSON.stringify(ids);
+        return this.http.get(this.disableUrl + "&ids=" + sIds)
+            .toPromise()
+            .then(function (r) { return r.json(); });
+    };
+    CronTabService.prototype.deleteByIds = function (ids) {
+        var sIds = JSON.stringify(ids);
+        return this.http.get(this.deleteByIdsUrl + "&ids=" + sIds)
+            .toPromise()
+            .then(function (r) { return r.json(); });
     };
     CronTabService.prototype.getHeroes = function () {
         return this.http.get(this.heroesUrl)
