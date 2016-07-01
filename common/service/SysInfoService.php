@@ -48,7 +48,7 @@ class SysInfoService
         }
 
         $result = [
-            'rtnCode' => 0, //-1ÎªÊ§°Ü
+            'rtnCode' => 0, //-1Ê§°Ü
             'cpu' => $cpuInfo,
             'memory' => $memInfo,
             'disk' => ""

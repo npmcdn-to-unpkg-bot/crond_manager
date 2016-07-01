@@ -14,10 +14,10 @@ use yii\web\Response;
 class BaseController  extends Controller
 {
     /**
-     * 输出json格式数据
-     * @param array  $data    输出数据
-     * @param int    $retCode 自定义错误码
-     * @param string $errMsg  错误信息
+     * 杈撳嚭json鏍煎紡鏁版嵁
+     * @param array  $data    杈撳嚭鏁版嵁
+     * @param int    $retCode 鑷畾涔夐敊璇爜
+     * @param string $errMsg  閿欒淇℃伅
      * @param bool   $success
      * @throws \yii\base\ExitException
      */
