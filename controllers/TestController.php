@@ -12,6 +12,7 @@ use Crontab\Crontab;
 use Crontab\Job;
 use Symfony\Component\Process\Process;
 use app\controllers\BaseController;
+use yii\helpers\StringHelper;
 
 class TestController extends BaseController
 {
@@ -121,8 +122,20 @@ class TestController extends BaseController
         $this->exportJson($content);
     }
 
-    public function actionAddJob($minute='*',$hour='*',$day='*',$month='*',$week='*',$command='*')
+    public function actionAddJob($guid='',$minute='*',$hour='*',$day='*',$month='*',$week='*',$command='',$scriptfile='')
     {
+        if(empty($guid)){
+            $guid = \app\common\support\StringHelper::uuid();
+        }
+        $dirInfo=\Yii::$app->basePath."/cron_scripts/";
+        if(!empty($scriptfile)){
+            $command = '/bin/bash '.$dirInfo.$scriptfile;
+        }
+        $dirInfo=\Yii::$app->basePath."/cron_logs/info/".$guid;
+        $dirError=\Yii::$app->basePath."/cron_logs/error/".$guid;
+        $cmdTemplate = '* . /etc/profile;echo 开始时间：;/bin/date;%s;echo 结束时间：;/bin/date;1>%s.log 2>%s.log';
+        $command = sprintf($cmdTemplate,$command,$dirInfo,$dirError);
+
         $job = new Job();
         $job
             ->setMinute($minute)
@@ -139,10 +152,10 @@ class TestController extends BaseController
         $error = $handler->getError();
         $output = $handler->getOutput();
         if(!empty($error)){
-            $this->exportJson([],-1,$error,false);
+            $this->exportJson([$error],-1,$error,false);
         }
         else{
-            $this->exportJson([],0,$output,true);
+            $this->exportJson([$output],0,'',true);
         }
     }
 

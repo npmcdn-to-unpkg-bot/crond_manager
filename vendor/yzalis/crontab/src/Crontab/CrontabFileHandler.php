@@ -44,17 +44,21 @@ class CrontabFileHandler
         // parsing cron file
         $process = new Process($this->crontabCommand($crontab).' -l');
         $process->run();
-        //todo:test
-        //$cronTableText = $process->getOutput();
-        $cronTableText = [
-            '#GUID 1F0B0737-2E43-42FC-922D-A408646D617D',
-            '*/5 * * 1,6 * myAmazingCommandToRunPeriodically1',
-            '#GUID 2F0B0737-2E43-42FC-922D-A408646D617D',
-            '*/5 * * 1,6 * myAmazingCommandToRunPeriodically2',
-            '#GUID 3F0B0737-2E43-42FC-922D-A408646D617D',
-            '*/5 * * 1,6 * myAmazingCommandToRunPeriodically3',
-        ];
-        $cronTableText = implode(PHP_EOL,$cronTableText);
+        //TODO:test
+        if(\Yii::$app->params['debug']===true){
+            $cronTableText = [
+                '#GUID 1F0B0737-2E43-42FC-922D-A408646D617D',
+                '*/5 * * 1,6 * myAmazingCommandToRunPeriodically1',
+                '#GUID 2F0B0737-2E43-42FC-922D-A408646D617D',
+                '*/5 * * 1,6 * myAmazingCommandToRunPeriodically2',
+                '#GUID 3F0B0737-2E43-42FC-922D-A408646D617D',
+                '*/5 * * 1,6 * myAmazingCommandToRunPeriodically3',
+            ];
+            $cronTableText = implode(PHP_EOL,$cronTableText);
+        }
+        else{
+            $cronTableText = $process->getOutput();
+        }
 
         foreach ($this->parseString($cronTableText) as $job) {
             $crontab->addJob($job);
@@ -164,6 +168,13 @@ class CrontabFileHandler
      */
     public function write(Crontab $crontab)
     {
+        /*TODO test*/
+        if(\Yii::$app->params['debug']===true){
+            $content = $crontab->render();
+            echo $content;
+            return $this;
+        }
+
         $tmpFile = tempnam(sys_get_temp_dir(), 'cron');
 
         $this->writeToFile($crontab, $tmpFile);

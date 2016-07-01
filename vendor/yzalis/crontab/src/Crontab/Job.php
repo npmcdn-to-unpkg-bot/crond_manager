@@ -26,7 +26,12 @@ class Job extends BaseJob
         }
     }
 
-    static function parseGuid($guidLine){
+    public $JobName;
+    public $Category;
+    public $IsEanble;
+    public $ModifyOn;
+
+    public function parseGuid($guidLine){
         $guid = '';
         if (preg_match("/#GUID\s*(.*)/i",$guidLine, $match)) {
             $guid = $match[1];
@@ -171,7 +176,8 @@ class Job extends BaseJob
         }
 
         // Create / Recreate a line in the crontab
-        $line = trim(implode(" ", $this->getEntries()));
+        $line = sprintf("#GUID ").$this->getGuid().PHP_EOL;
+        $line = $line.trim(implode(" ", $this->getEntries()));
 
         return $line;
     }
@@ -383,9 +389,9 @@ class Job extends BaseJob
      */
     public function setCommand($command)
     {
-        if (!preg_match(self::$_regex['command'], $command)) {
-            throw new \InvalidArgumentException(sprintf('Command "%s" is incorect', $command));
-        }
+        //if (!preg_match(self::$_regex['command'], $command)) {
+        //    throw new \InvalidArgumentException(sprintf('Command "%s" is incorect', $command));
+        //}
 
         $this->command = $command;
 
