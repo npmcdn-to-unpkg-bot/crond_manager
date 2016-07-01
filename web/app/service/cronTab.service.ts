@@ -15,6 +15,9 @@ export class CronTabService {
     private disableUrl='/index.php?r=tools/disable';
     private deleteUrl='/index.php?r=tools/delete';
     private deleteByIdsUrl = '/index.php?r=tools/delete-by-ids';
+    private saveCronTabUrl = '/index.php?r=tools/save-cron-tab';
+    private getScriptsFiles = '/index.php?r=cron-file/get-scripts';
+    private getScriptsFileContent = '/index.php?r=cron-file/get-script-content';
     constructor(private http: Http) { }
 
     getCronTabs(id, tag, key): Promise<CronTabModel[]>{
@@ -35,6 +38,14 @@ export class CronTabService {
             .then(r=> r.json());
     }
 
+    getScripts($host):Promise<string[]>{
+        let headers = new Headers();
+        headers.append('Content-Type', 'application/json');
+        return this.http.get($host+this.getScriptsFiles, headers)
+            .toPromise()
+            .then(r=>r.json()['data']);
+    }
+
     enable(ids){
         let sIds = JSON.stringify(ids);
         return this.http.get(this.enableUrl+"&ids="+sIds)
@@ -53,6 +64,17 @@ export class CronTabService {
             .toPromise()
             .then(r=> r.json());
     }
+    save(model){
+        let headers = new Headers();
+        headers.append('Content-Type', 'multipart/form-data');
+        return this.http
+            .post(this.saveCronTabUrl, JSON.stringify(model), {headers: headers})
+            .toPromise()
+            .then(res => res.json().data)
+            .catch(this.handleError);
+    }
+
+
 
     getHeroes(): Promise<Hero[]> {
         return this.http.get(this.heroesUrl)
@@ -66,7 +88,7 @@ export class CronTabService {
             .then(heroes => heroes.filter(hero => hero.id === id)[0]);
     }
 
-    save(hero: Hero): Promise<Hero>  {
+    saveHero(hero: Hero): Promise<Hero>  {
         if (hero.id) {
             return this.put(hero);
         }

@@ -26,7 +26,7 @@ AppAsset::register($this);
 <body>
 <?php $this->beginBody() ?>
 
-<div class="wrap0 container">
+<div class="wrap container">
     <?php
     NavBar::begin([
         'brandLabel' => '调度任务管理',

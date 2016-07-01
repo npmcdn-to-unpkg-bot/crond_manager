@@ -7,6 +7,7 @@ import { ActivatedRoute } from '@angular/router';
 
 import{CronTabModel} from '../model/cronTabModel';
 import{CronTabService} from '../service/cronTab.service';
+import{CrondServerService} from '../service/crondServer.service';
 
 @Component({
     selector: 'my-crontabs',
@@ -24,8 +25,13 @@ export class CronTabsComponent implements OnInit{
     navigated = false;
     svrId = null;
     selectedAll = false;
+    editModel={}; //当前编辑对象
+    scriptsList = [];//脚本文件列表
+    scriptContent = '';//脚本文件内容
+    crondServerInfo=null;
     constructor(
         private cronService: CronTabService,
+        private crondSvrService: CrondServerService,
         private route: ActivatedRoute
     ) {
     }
@@ -40,7 +46,11 @@ export class CronTabsComponent implements OnInit{
                 this.cronService.getCronTabs(id,'','')
                     .then(r => this.cronTabs = r);
                 this.cronService.getTags(id)
-                    .then(r=>this.tags = r);
+                    .then(r=>this.tags = (r==null || r.length==0)?[]:r);
+                this.crondSvrService.getCrondScripts(id)
+                    .then(r=>this.scriptsList = r);
+
+
             } else {
                 this.navigated = false;
                 this.cronTabs = [];
@@ -49,7 +59,7 @@ export class CronTabsComponent implements OnInit{
     }
 
     filter(){
-        let tag  = this.selectedTag.tag;
+        let tag  = this.selectedTag ? this.selectedTag.tag : {};
         let key = this.searchKey;
         this.cronService.getCronTabs(this.svrId, tag, key)
             .then(r=>this.cronTabs = r);
@@ -63,6 +73,13 @@ export class CronTabsComponent implements OnInit{
         this.selectedTag = tag;
         this.searchKey = '';
         this.filter();
+    }
+
+    onSelectScript(){
+        var file = document.getElementById('idCronFile').value;
+        this.crondSvrService.getCrondScriptContent(this.svrId, file)
+            .then(r=>this.scriptContent = r);
+
     }
 
     selectAll(){
@@ -95,5 +112,11 @@ export class CronTabsComponent implements OnInit{
         })
         console.info(JSON.stringify(ids))
         return ids;
+    }
+    openModel($model){
+        this.editModel = $model;
+    }
+    saveModel(){
+        this.cronService.save(this.editModel);
     }
 }

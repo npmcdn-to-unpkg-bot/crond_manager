@@ -11,6 +11,8 @@ import {CrondServerModel} from "../model/crondServerModel";
 export class CrondServerService {
 
     private cronUrl = '/index.php?r=tools/get-crondservers';
+    private getCrondScriptUrl = '/index.php?r=tools/get-crond-scripts';
+    private getCrondScriptContentUrl = '/index.php?r=tools/get-crond-script-content';
     constructor(private http: Http) { }
 
     getCrondServers(): Promise<CrondServerModel[]>{
@@ -19,6 +21,24 @@ export class CrondServerService {
         headers.append('Content-Type', 'application/json');
         let tmp = [];
         return this.http.get(this.cronUrl, headers)
+            .toPromise()
+            .then(r=> r.json());
+    }
+
+    getCrondScripts($id): Promise<string[]>{
+
+        let headers = new Headers();
+        headers.append('Content-Type', 'application/json');
+        let tmp = [];
+        return this.http.get(this.getCrondScriptUrl+"&id="+$id, headers)
+            .toPromise()
+            .then(r=> r.json());
+    }
+    getCrondScriptContent(id,file):Promise<string>{
+        let headers = new Headers();
+        headers.append('Content-Type', 'application/json');
+        let tmp = [];
+        return this.http.get(this.getCrondScriptContentUrl+"&id="+id+"&file="+file, headers)
             .toPromise()
             .then(r=> r.json());
     }

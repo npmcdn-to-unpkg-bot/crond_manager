@@ -17,6 +17,9 @@ var CronTabService = (function () {
         this.disableUrl = '/index.php?r=tools/disable';
         this.deleteUrl = '/index.php?r=tools/delete';
         this.deleteByIdsUrl = '/index.php?r=tools/delete-by-ids';
+        this.saveCronTabUrl = '/index.php?r=tools/save-cron-tab';
+        this.getScriptsFiles = '/index.php?r=cron-file/get-scripts';
+        this.getScriptsFileContent = '/index.php?r=cron-file/get-script-content';
     }
     CronTabService.prototype.getCronTabs = function (id, tag, key) {
         var headers = new http_1.Headers();
@@ -32,6 +35,13 @@ var CronTabService = (function () {
         return this.http.get(this.getTagUrl + "&id=" + id, headers)
             .toPromise()
             .then(function (r) { return r.json(); });
+    };
+    CronTabService.prototype.getScripts = function ($host) {
+        var headers = new http_1.Headers();
+        headers.append('Content-Type', 'application/json');
+        return this.http.get($host + this.getScriptsFiles, headers)
+            .toPromise()
+            .then(function (r) { return r.json()['data']; });
     };
     CronTabService.prototype.enable = function (ids) {
         var sIds = JSON.stringify(ids);
@@ -51,6 +61,15 @@ var CronTabService = (function () {
             .toPromise()
             .then(function (r) { return r.json(); });
     };
+    CronTabService.prototype.save = function (model) {
+        var headers = new http_1.Headers();
+        headers.append('Content-Type', 'multipart/form-data');
+        return this.http
+            .post(this.saveCronTabUrl, JSON.stringify(model), { headers: headers })
+            .toPromise()
+            .then(function (res) { return res.json().data; })
+            .catch(this.handleError);
+    };
     CronTabService.prototype.getHeroes = function () {
         return this.http.get(this.heroesUrl)
             .toPromise()
@@ -61,7 +80,7 @@ var CronTabService = (function () {
         return this.getHeroes()
             .then(function (heroes) { return heroes.filter(function (hero) { return hero.id === id; })[0]; });
     };
-    CronTabService.prototype.save = function (hero) {
+    CronTabService.prototype.saveHero = function (hero) {
         if (hero.id) {
             return this.put(hero);
         }

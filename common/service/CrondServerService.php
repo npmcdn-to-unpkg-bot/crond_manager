@@ -10,17 +10,9 @@ use app\models\CronTab;
  * Date: 2016/6/29
  * Time: 18:04
  */
-class CrondServerService
+class CrondServerService extends BaseService
 {
     private $_db=null;
-
-    /**
-     * CrondServerService constructor.
-     */
-    public function __construct()
-    {
-        $this->_db = \yii::$app->getDb();;
-    }
 
     function getCrondServers(){
         /**
@@ -28,6 +20,14 @@ class CrondServerService
          */
         $query = \yii::createObject(CrondServer::className());
         return $query->find()->asArray()->all();
+    }
+
+    function getCrondServer($id){
+        /**
+         * @var $query CrondServer
+         */
+        $query = \yii::createObject(CrondServer::className());
+        return $query->find()->where(['id'=>$id])->asArray()->one();
     }
 
     /**
