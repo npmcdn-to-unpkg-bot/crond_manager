@@ -26,13 +26,15 @@ class Job extends BaseJob
         }
     }
 
-    static function getGuid($guidLine){
+    static function parseGuid($guidLine){
         $guid = '';
         if (preg_match("/#GUID\s*(.*)/i",$guidLine, $match)) {
             $guid = $match[1];
         }
         return $guid;
     }
+
+
 
     /**
      * Parse crontab line into Job object
@@ -100,7 +102,6 @@ class Job extends BaseJob
         // set the Job object
         $job = new Job();
         $job
-            ->setGuid($guid)
             ->setMinute($parts[0])
             ->setHour($parts[1])
             ->setDayOfMonth($parts[2])
@@ -113,8 +114,8 @@ class Job extends BaseJob
             ->setLogSize($logSize)
             ->setComments($comments)
             ->setLastRunTime($lastRunTime)
-            ->setStatus($status)
-        ;
+            ->setStatus($status);
+        $job->setGuid($guid);
 
         return $job;
     }
@@ -272,11 +273,15 @@ class Job extends BaseJob
 
     public function setGuid($guid){
         if(empty($guid)){
-            $this->guid = StringHelper::uuid();
+            $this->guid = \app\common\support\StringHelper::uuid();
         }
         else{
             $this->guid = $guid;
         }
+    }
+
+    public function getGuid(){
+        return $this->guid;
     }
 
     /**

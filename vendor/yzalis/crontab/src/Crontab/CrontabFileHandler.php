@@ -44,8 +44,19 @@ class CrontabFileHandler
         // parsing cron file
         $process = new Process($this->crontabCommand($crontab).' -l');
         $process->run();
+        //todo:test
+        //$cronTableText = $process->getOutput();
+        $cronTableText = [
+            '#GUID 1F0B0737-2E43-42FC-922D-A408646D617D',
+            '*/5 * * 1,6 * myAmazingCommandToRunPeriodically1',
+            '#GUID 2F0B0737-2E43-42FC-922D-A408646D617D',
+            '*/5 * * 1,6 * myAmazingCommandToRunPeriodically2',
+            '#GUID 3F0B0737-2E43-42FC-922D-A408646D617D',
+            '*/5 * * 1,6 * myAmazingCommandToRunPeriodically3',
+        ];
+        $cronTableText = implode(PHP_EOL,$cronTableText);
 
-        foreach ($this->parseString($process->getOutput()) as $job) {
+        foreach ($this->parseString($cronTableText) as $job) {
             $crontab->addJob($job);
         }
 
@@ -95,8 +106,8 @@ class CrontabFileHandler
         $guid = '';
         foreach ($lines as $line) {
             $trimmed = trim($line);
-            if (0 !== \strpos($trimmed, '#GUID')) {
-                $guid = Job::getGuid($line);
+            if (0 === \strpos($trimmed, '#GUID')) {
+                $guid = Job::parseGuid($line);
             }
             // if line is not a comment, convert it to a cron
             if (0 !== \strpos($trimmed, '#')) {

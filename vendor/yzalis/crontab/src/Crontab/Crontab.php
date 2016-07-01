@@ -184,7 +184,7 @@ class Crontab
      */
     public function addJob(Job $job)
     {
-        $this->jobs[$job->getHash()] = $job;
+        $this->jobs[$job->getGuid()] = $job;
 
         return $this;
     }

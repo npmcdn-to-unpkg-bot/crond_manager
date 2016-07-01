@@ -86,18 +86,14 @@ class TestController extends BaseController
             'memory' => $memInfo,
             'disk' => ""
         ];
-
-        $response = \Yii::$app->response;
-        $response->format = $response::FORMAT_JSON;
-        $response->data = 'ddd';
         $this->exportJson($result);
     }
 
     public function actionGetCrontab()
     {
         $crontab = new Crontab();
-        $content = $crontab->render();
-        echo $content;
+        $job = $crontab->getJobs();
+        $this->exportJson($job);
 
     }
 
