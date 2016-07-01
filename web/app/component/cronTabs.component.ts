@@ -1,11 +1,12 @@
 /**
  * Created by Administrator on 2016/7/1.
  */
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, OnDestroy, Output } from '@angular/core';
+
+import { ActivatedRoute } from '@angular/router';
 
 import{CronTabModel} from '../model/cronTabModel';
 import{CronTabService} from '../service/cronTab.service';
-import {HeroService} from "../hero.service";
 
 @Component({
     selector: 'my-crontabs',
@@ -16,17 +17,30 @@ import {HeroService} from "../hero.service";
 export class CronTabsComponent implements OnInit{
     cronTabs = [];
     error = null;
+    sub: any;
+    navigated = false;
     constructor(
-        private cronService: CronTabService
-    ) {debugger
+        private cronService: CronTabService,
+        private route: ActivatedRoute
+    ) {
     }
 
     ngOnInit(){
         //this.cronTabs = this.cronService.getCronTabs();
+        this.sub = this.route.params.subscribe(params => {
+            if (params['id'] !== undefined) {
+                let id = +params['id'];
+                this.navigated = true;
+                this.cronService.getCronTabs(id)
+                    .then(r => this.cronTabs = r);
+            } else {
+                this.navigated = false;
+                this.cronTabs = [];
+            }
+        });
+    }
 
-        this.cronService
-            .getCronTabs()
-            .then(r => this.cronTabs = r)
-            .catch(error => this.error = error);
+    ngOnDestroy() {
+        this.sub.unsubscribe();
     }
 }

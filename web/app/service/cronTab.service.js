@@ -13,11 +13,11 @@ var CronTabService = (function () {
         this.heroesUrl = 'app/heroes'; // URL to web api
         this.cronUrl = '/index.php?r=tools/get-crontabs';
     }
-    CronTabService.prototype.getCronTabs = function () {
+    CronTabService.prototype.getCronTabs = function (id) {
         var headers = new http_1.Headers();
         headers.append('Content-Type', 'application/json');
         var tmp = [];
-        return this.http.get(this.cronUrl, headers)
+        return this.http.get(this.cronUrl + "&id=" + id, headers)
             .toPromise()
             .then(function (r) { return r.json(); });
     };

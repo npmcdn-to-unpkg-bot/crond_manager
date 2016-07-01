@@ -28,13 +28,14 @@ class ToolsController extends Controller
          */
         $svr = \yii::createObject(CrondServerService::class);
         return json_encode($svr->getCrondServers());
-        return json_encode([
-            ['id'=>1,'name'=>'te11'],
-            ['id'=>2,'name'=>'te12'],
-        ]);
     }
 
     public function actionGetCrontabs(){
-
+        $sid = \yii::$app->request->get('id');
+        /**
+         * @var $svr CrondServerService
+         */
+        $svr = \yii::createObject(CrondServerService::class);
+        return json_encode($svr->getCronTabs($sid));
     }
 }

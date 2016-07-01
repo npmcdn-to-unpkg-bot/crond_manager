@@ -23,7 +23,7 @@ var CrondServerComponent = (function () {
             .catch(function (error) { return _this.error = error; });
     };
     CrondServerComponent.prototype.gotoDetail = function (model) {
-        this.router.navigate(['/crontabs']);
+        this.router.navigate(['/crontabs', model.id]);
     };
     CrondServerComponent = __decorate([
         core_1.Component({

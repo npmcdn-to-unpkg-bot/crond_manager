@@ -1,13 +1,29 @@
 <h1 class="title-bar" style="margin-top: 8px;margin-bottom: 8px;">任务分类</h1>
 
 <h1 class="title-bar" style="margin-top: 8px;margin-bottom: 8px;">任务列表</h1>
-<div *ngFor="let cronTab of cronTabs" class="col-sm-12 region-box" style="border:1px solid #ccd6e0;padding:0;margin:0 2px;margin-bottom:8px;">
-    <div class="region-bar">{{ cronTab.name }}</div>
-    <div class="region-content">
-        <p>服务器状态:<span>正常</span></p>
-        <p>CPU:<span>{{ cronTab.cpu_model }}</span></p>
-        <p>内存:<span>{{ cronTab.memory }}</span></p>
-        <p>磁盘:<span>{{ cronTab.disk }}</span></p>
 
-    </div>
-</div>
+<table class="table table-sm">
+    <thead>
+    <tr>
+        <th>#</th>
+        <th>任务类型</th>
+        <th>任务名称</th>
+        <th>用户</th>
+        <th>定时周期</th>
+        <th>脚本</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr  *ngFor="let cronTab of cronTabs">
+        <th scope="row">1</th>
+        <td>{{ cronTab.tag }}</td>
+        <td>{{ cronTab.cron_name }}</td>
+        <td>{{ cronTab.cron_user }}</td>
+        <td>{{ cronTab.frequency }}</td>
+        <td>{{ cronTab.cron_file }}</td>
+        <td>编辑</td>
+    </tr>
+    </tbody>
+</table>
+

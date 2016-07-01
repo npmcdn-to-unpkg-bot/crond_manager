@@ -12,12 +12,11 @@ export class CronTabService {
     private cronUrl = '/index.php?r=tools/get-crontabs';
     constructor(private http: Http) { }
 
-    getCronTabs(): Promise<CronTabModel[]>{
-
+    getCronTabs(id): Promise<CronTabModel[]>{
         let headers = new Headers();
         headers.append('Content-Type', 'application/json');
         let tmp = [];
-        return this.http.get(this.cronUrl, headers)
+        return this.http.get(this.cronUrl+"&id="+id,headers)
             .toPromise()
             .then(r=> r.json());
     }

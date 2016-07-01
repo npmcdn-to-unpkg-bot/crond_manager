@@ -30,7 +30,7 @@ export const routes: RouterConfig = [
 
   },
   {
-    path: 'crontabs',
+    path: 'crontabs/:id',
     component: CronTabsComponent,
 
   }

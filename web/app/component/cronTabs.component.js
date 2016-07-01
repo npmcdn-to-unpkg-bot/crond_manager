@@ -9,19 +9,31 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
  */
 var core_1 = require('@angular/core');
 var CronTabsComponent = (function () {
-    function CronTabsComponent(cronService) {
+    function CronTabsComponent(cronService, route) {
         this.cronService = cronService;
+        this.route = route;
         this.cronTabs = [];
         this.error = null;
-        debugger;
+        this.navigated = false;
     }
     CronTabsComponent.prototype.ngOnInit = function () {
-        //this.cronTabs = this.cronService.getCronTabs();
         var _this = this;
-        this.cronService
-            .getCronTabs()
-            .then(function (r) { return _this.cronTabs = r; })
-            .catch(function (error) { return _this.error = error; });
+        //this.cronTabs = this.cronService.getCronTabs();
+        this.sub = this.route.params.subscribe(function (params) {
+            if (params['id'] !== undefined) {
+                var id = +params['id'];
+                _this.navigated = true;
+                _this.cronService.getCronTabs(id)
+                    .then(function (r) { return _this.cronTabs = r; });
+            }
+            else {
+                _this.navigated = false;
+                _this.cronTabs = [];
+            }
+        });
+    };
+    CronTabsComponent.prototype.ngOnDestroy = function () {
+        this.sub.unsubscribe();
     };
     CronTabsComponent = __decorate([
         core_1.Component({
