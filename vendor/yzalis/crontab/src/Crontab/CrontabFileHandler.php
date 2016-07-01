@@ -176,11 +176,10 @@ class CrontabFileHandler
         }
 
         $tmpFile = tempnam(sys_get_temp_dir(), 'cron');
-
         $this->writeToFile($crontab, $tmpFile);
 
         $cmd = $this->crontabCommand($crontab).' '.$tmpFile;
-        echo 'cmd:'.$cmd;
+        //echo 'cmd:'.$cmd;
         $process = new Process($cmd);
         $process->run();
 
@@ -206,7 +205,7 @@ class CrontabFileHandler
         }
 
         $fileContent = $crontab->render().PHP_EOL;
-        echo 'content:'.$fileContent;
+        //echo 'content:'.$fileContent;
         file_put_contents($filename, $fileContent);
 
         return $this;
