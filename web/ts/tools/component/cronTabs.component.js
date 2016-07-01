@@ -9,8 +9,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
  */
 var core_1 = require('@angular/core');
 var CronTabComponent = (function () {
-    function CronTabComponent(router, cronService) {
-        this.router = router;
+    function CronTabComponent(cronService) {
         this.cronService = cronService;
         this.cronTabs = [];
         this.error = null;

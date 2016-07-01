@@ -17,7 +17,7 @@ var HeroesComponent = (function () {
         this.heroService
             .getHeroes()
             .then(function (heroes) { return _this.heroes = heroes; })
-            .catch(function (error) { return _this.error = error; }); // TODO: Display error message
+            .catch(function (error) { return _this.error = error; });
     };
     HeroesComponent.prototype.addHero = function () {
         this.addingHero = true;
@@ -29,7 +29,7 @@ var HeroesComponent = (function () {
             this.getHeroes();
         }
     };
-    HeroesComponent.prototype.delete = function (hero, event) {
+    HeroesComponent.prototype.deleteHero = function (hero, event) {
         var _this = this;
         event.stopPropagation();
         this.heroService
@@ -40,7 +40,7 @@ var HeroesComponent = (function () {
                 _this.selectedHero = null;
             }
         })
-            .catch(function (error) { return _this.error = error; }); // TODO: Display error message
+            .catch(function (error) { return _this.error = error; });
     };
     HeroesComponent.prototype.ngOnInit = function () {
         this.getHeroes();
@@ -50,13 +50,13 @@ var HeroesComponent = (function () {
         this.addingHero = false;
     };
     HeroesComponent.prototype.gotoDetail = function () {
-        this.router.navigate(['HeroDetail', { id: this.selectedHero.id }]);
+        this.router.navigate(['/detail', this.selectedHero.id]);
     };
     HeroesComponent = __decorate([
         core_1.Component({
             selector: 'my-heroes',
-            templateUrl: 'template/tools/heroes.component.html',
-            styleUrls: ['css/tools/heroes.component.css'],
+            templateUrl: 'app/heroes.component.html',
+            styleUrls: ['app/heroes.component.css'],
             directives: [hero_detail_component_1.HeroDetailComponent]
         })
     ], HeroesComponent);
@@ -64,8 +64,8 @@ var HeroesComponent = (function () {
 })();
 exports.HeroesComponent = HeroesComponent;
 /*
-Copyright 2016 Google Inc. All Rights Reserved.
-Use of this source code is governed by an MIT-style license that
-can be found in the LICENSE file at http://angular.io/license
-*/ 
+ Copyright 2016 Google Inc. All Rights Reserved.
+ Use of this source code is governed by an MIT-style license that
+ can be found in the LICENSE file at http://angular.io/license
+ */ 
 //# sourceMappingURL=heroes.component.js.map

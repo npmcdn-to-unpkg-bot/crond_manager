@@ -1,10 +1,7 @@
-import { Component } from '@angular/core';
-import { RouteConfig, ROUTER_DIRECTIVES, ROUTER_PROVIDERS } from '@angular/router-deprecated';
+import { Component }          from '@angular/core';
+import { ROUTER_DIRECTIVES }  from '@angular/router';
 
-import { DashboardComponent }  from './dashboard.component';
-import { HeroesComponent }     from './heroes.component';
-import { HeroDetailComponent } from './hero-detail.component';
-import { HeroService }         from './hero.service';
+import { HeroService }        from './hero.service';
 import {CronTabComponent} from './component/cronTabs.component';
 import {CronTabService} from './service/cronTab.service';
 
@@ -14,33 +11,26 @@ import {CronTabService} from './service/cronTab.service';
   template: `
     <h1>{{title}}</h1>
     <nav>
-      <a [routerLink]="['Dashboard']">Dashboard</a>
-      <a [routerLink]="['Heroes']">Heroes</a>
-      <a [routerLink]="['CronTabs']">CronTabs</a>
+      <a [routerLink]="['/dashboard']" routerLinkActive="active">Dashboard</a>
+      <a [routerLink]="['/heroes']" routerLinkActive="active">Heroes</a>
+      <a [routerLink]="['/crontabs']" routerLinkActive="active">Crontabs</a>
     </nav>
     <router-outlet></router-outlet>
   `,
   styleUrls: ['css/tools/app.component.css'],
   directives: [ROUTER_DIRECTIVES],
   providers: [
-    ROUTER_PROVIDERS,
     HeroService,
       CronTabService
   ]
 })
-@RouteConfig([
-  { path: '/dashboard',  name: 'Dashboard',  component: DashboardComponent },
-  { path: '/detail/:id', name: 'HeroDetail', component: HeroDetailComponent },
-  { path: '/heroes',     name: 'Heroes',     component: HeroesComponent },
-  {path:'/contabs',name:'CronTabs',component:CronTabComponent, useAsDefault: true}
-])
 export class AppComponent {
-  title = 'Tour of Heroes0';
+  title = 'Tour of Heroes';
 }
 
 
 /*
-Copyright 2016 Google Inc. All Rights Reserved.
-Use of this source code is governed by an MIT-style license that
-can be found in the LICENSE file at http://angular.io/license
-*/
+ Copyright 2016 Google Inc. All Rights Reserved.
+ Use of this source code is governed by an MIT-style license that
+ can be found in the LICENSE file at http://angular.io/license
+ */

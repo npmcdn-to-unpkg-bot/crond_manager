@@ -18,6 +18,6 @@ class AssetBootstrap extends AssetBundle
     ];
     public $js = [
         'js/bootstrap.min.js',
-        'npm.js',
+        //'js/npm.js',
     ];
 }

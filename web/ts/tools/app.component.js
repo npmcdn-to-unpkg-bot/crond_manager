@@ -5,42 +5,31 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 var core_1 = require('@angular/core');
-var router_deprecated_1 = require('@angular/router-deprecated');
-var dashboard_component_1 = require('./dashboard.component');
-var heroes_component_1 = require('./heroes.component');
-var hero_detail_component_1 = require('./hero-detail.component');
+var router_1 = require('@angular/router');
 var hero_service_1 = require('./hero.service');
-var cronTabs_component_1 = require('./component/cronTabs.component');
 var cronTab_service_1 = require('./service/cronTab.service');
 var AppComponent = (function () {
     function AppComponent() {
-        this.title = 'Tour of Heroes0';
+        this.title = 'Tour of Heroes';
     }
     AppComponent = __decorate([
         core_1.Component({
             selector: 'my-app',
-            template: "\n    <h1>{{title}}</h1>\n    <nav>\n      <a [routerLink]=\"['Dashboard']\">Dashboard</a>\n      <a [routerLink]=\"['Heroes']\">Heroes</a>\n      <a [routerLink]=\"['CronTabs']\">CronTabs</a>\n    </nav>\n    <router-outlet></router-outlet>\n  ",
+            template: "\n    <h1>{{title}}</h1>\n    <nav>\n      <a [routerLink]=\"['/dashboard']\" routerLinkActive=\"active\">Dashboard</a>\n      <a [routerLink]=\"['/heroes']\" routerLinkActive=\"active\">Heroes</a>\n      <a [routerLink]=\"['/crontabs']\" routerLinkActive=\"active\">Crontabs</a>\n    </nav>\n    <router-outlet></router-outlet>\n  ",
             styleUrls: ['css/tools/app.component.css'],
-            directives: [router_deprecated_1.ROUTER_DIRECTIVES],
+            directives: [router_1.ROUTER_DIRECTIVES],
             providers: [
-                router_deprecated_1.ROUTER_PROVIDERS,
                 hero_service_1.HeroService,
                 cronTab_service_1.CronTabService
             ]
-        }),
-        router_deprecated_1.RouteConfig([
-            { path: '/dashboard', name: 'Dashboard', component: dashboard_component_1.DashboardComponent },
-            { path: '/detail/:id', name: 'HeroDetail', component: hero_detail_component_1.HeroDetailComponent },
-            { path: '/heroes', name: 'Heroes', component: heroes_component_1.HeroesComponent },
-            { path: '/contabs', name: 'CronTabs', component: cronTabs_component_1.CronTabComponent, useAsDefault: true }
-        ])
+        })
     ], AppComponent);
     return AppComponent;
 })();
 exports.AppComponent = AppComponent;
 /*
-Copyright 2016 Google Inc. All Rights Reserved.
-Use of this source code is governed by an MIT-style license that
-can be found in the LICENSE file at http://angular.io/license
-*/ 
+ Copyright 2016 Google Inc. All Rights Reserved.
+ Use of this source code is governed by an MIT-style license that
+ can be found in the LICENSE file at http://angular.io/license
+ */ 
 //# sourceMappingURL=app.component.js.map

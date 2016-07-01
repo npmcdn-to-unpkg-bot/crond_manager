@@ -1,36 +1,45 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { RouteParams } from '@angular/router-deprecated';
+import { Component, EventEmitter, Input, OnInit, OnDestroy, Output } from '@angular/core';
+
+import { ActivatedRoute } from '@angular/router';
 
 import { Hero }        from './hero';
 import { HeroService } from './hero.service';
 
 @Component({
   selector: 'my-hero-detail',
-  templateUrl: 'template/tools/hero-detail.component.html',
-  styleUrls: ['css/tools/hero-detail.component.css']
+  templateUrl: 'app/hero-detail.component.html',
+  styleUrls: ['app/hero-detail.component.css']
 })
-export class HeroDetailComponent implements OnInit {
+export class HeroDetailComponent implements OnInit, OnDestroy {
   @Input() hero: Hero;
   @Output() close = new EventEmitter();
   error: any;
+  sub: any;
   navigated = false; // true if navigated here
 
   constructor(
-    private heroService: HeroService,
-    private routeParams: RouteParams) {
+      private heroService: HeroService,
+      private route: ActivatedRoute) {
   }
 
   ngOnInit() {
-    if (this.routeParams.get('id') !== null) {
-      let id = +this.routeParams.get('id');
-      this.navigated = true;
-      this.heroService.getHero(id)
-          .then(hero => this.hero = hero);
-    } else {
-      this.navigated = false;
-      this.hero = new Hero();
-    }
+    this.sub = this.route.params.subscribe(params => {
+      if (params['id'] !== undefined) {
+        let id = +params['id'];
+        this.navigated = true;
+        this.heroService.getHero(id)
+            .then(hero => this.hero = hero);
+      } else {
+        this.navigated = false;
+        this.hero = new Hero();
+      }
+    });
   }
+
+  ngOnDestroy() {
+    this.sub.unsubscribe();
+  }
+
   save() {
     this.heroService
         .save(this.hero)
@@ -47,9 +56,8 @@ export class HeroDetailComponent implements OnInit {
 }
 
 
-
 /*
-Copyright 2016 Google Inc. All Rights Reserved.
-Use of this source code is governed by an MIT-style license that
-can be found in the LICENSE file at http://angular.io/license
-*/
+ Copyright 2016 Google Inc. All Rights Reserved.
+ Use of this source code is governed by an MIT-style license that
+ can be found in the LICENSE file at http://angular.io/license
+ */

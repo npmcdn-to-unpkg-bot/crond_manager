@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router }            from '@angular/router-deprecated';
+import { Router }            from '@angular/router';
 
 import { Hero }                from './hero';
 import { HeroService }         from './hero.service';
@@ -7,8 +7,8 @@ import { HeroDetailComponent } from './hero-detail.component';
 
 @Component({
   selector: 'my-heroes',
-  templateUrl: 'template/tools/heroes.component.html',
-  styleUrls:  ['css/tools/heroes.component.css'],
+  templateUrl: 'app/heroes.component.html',
+  styleUrls:  ['app/heroes.component.css'],
   directives: [HeroDetailComponent]
 })
 export class HeroesComponent implements OnInit {
@@ -18,14 +18,14 @@ export class HeroesComponent implements OnInit {
   error: any;
 
   constructor(
-    private router: Router,
-    private heroService: HeroService) { }
+      private router: Router,
+      private heroService: HeroService) { }
 
   getHeroes() {
     this.heroService
         .getHeroes()
         .then(heroes => this.heroes = heroes)
-        .catch(error => this.error = error); // TODO: Display error message
+        .catch(error => this.error = error);
   }
 
   addHero() {
@@ -38,7 +38,7 @@ export class HeroesComponent implements OnInit {
     if (savedHero) { this.getHeroes(); }
   }
 
-  delete(hero: Hero, event: any) {
+  deleteHero(hero: Hero, event: any) {
     event.stopPropagation();
     this.heroService
         .delete(hero)
@@ -46,7 +46,7 @@ export class HeroesComponent implements OnInit {
           this.heroes = this.heroes.filter(h => h !== hero);
           if (this.selectedHero === hero) { this.selectedHero = null; }
         })
-        .catch(error => this.error = error); // TODO: Display error message
+        .catch(error => this.error = error);
   }
 
   ngOnInit() {
@@ -59,13 +59,13 @@ export class HeroesComponent implements OnInit {
   }
 
   gotoDetail() {
-    this.router.navigate(['HeroDetail', { id: this.selectedHero.id }]);
+    this.router.navigate(['/detail', this.selectedHero.id]);
   }
 }
 
 
 /*
-Copyright 2016 Google Inc. All Rights Reserved.
-Use of this source code is governed by an MIT-style license that
-can be found in the LICENSE file at http://angular.io/license
-*/
+ Copyright 2016 Google Inc. All Rights Reserved.
+ Use of this source code is governed by an MIT-style license that
+ can be found in the LICENSE file at http://angular.io/license
+ */
