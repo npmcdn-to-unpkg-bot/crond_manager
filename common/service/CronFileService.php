@@ -81,6 +81,10 @@ class CronFileService
             ->setDayOfWeek($week)
             ->setCommand($command);
         $handler = $crontab->write();
-        return $handler;
+        return [
+            'guid'=>$guid,
+            'error'=>$handler->getError(),
+            'output'=>$handler->getOutput(),
+        ];
     }
 }

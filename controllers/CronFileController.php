@@ -42,14 +42,15 @@ class CronFileController extends BaseController
     public function actionSaveJob($guid='',$minute='*',$hour='*',$day='*',$month='*',$week='*',$command='',$scriptfile='')
     {
         $cronFileService = new CronFileService();
-        $handler = $cronFileService->SaveJob($guid,$minute,$hour,$day,$month,$week,$command,$scriptfile);
-        $error = $handler->getError();
-        $output = $handler->getOutput();
+        $result = $cronFileService->SaveJob($guid,$minute,$hour,$day,$month,$week,$command,$scriptfile);
+        $error = $result['error'];
+        $output = $result['output'];
+        $guid = $result['guid'];
         if(!empty($error)){
             $this->exportJson([$error],-1,$error,false);
         }
         else{
-            $this->exportJson([$output],0,'',true);
+            $this->exportJson([$guid],0,'',true);
         }
     }
 }
