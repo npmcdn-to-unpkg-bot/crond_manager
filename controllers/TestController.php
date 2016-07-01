@@ -10,8 +10,9 @@ namespace app\controllers;
 
 use Crontab\Crontab;
 use Crontab\Job;
+use yii\web\Controller;
 
-class TestController
+class TestController extends Controller
 {
     /**
      *
