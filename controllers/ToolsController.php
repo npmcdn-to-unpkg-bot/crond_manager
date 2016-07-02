@@ -105,7 +105,23 @@ class ToolsController extends BaseController
          * @var $svr CrondServerService
          */
         $svr = \yii::createObject(CrondServerService::class);
-        return json_encode($svr->getCronTabs($sid,$tag,$key));
+        $svrInfo = $svr->getCrondServer($sid);
+        $host = $svrInfo['api_host'];
+        $url = $host.'/index.php?r=cron-file/get-job-recent-excute-satus';
+        $tmp =$svr->request_get($url, []);
+        $data = json_decode($svr->request_get($url, []),true);
+        $cronTabs = $svr->getCronTabs($sid,$tag,$key);
+        if(!empty($data) && $data['retCode']!='-1'){
+            $guidTmp = $data['data'];
+            foreach($cronTabs as &$item){
+                if(array_key_exists($item['jog_guid'], $guidTmp)){
+                    $item['exec_result'] = $guidTmp[$item['jog_guid']]['success'];
+                    $item['last_time'] = $guidTmp[$item['jog_guid']]['error_time'];
+                }
+            }
+        }
+
+        return json_encode($cronTabs);
     }
 
     public function actionGetTags(){

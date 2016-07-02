@@ -57,7 +57,8 @@
         <td class="run-status" [class.run-status-running]="cronTab.status == '启用'" [class.run-status-error]="cronTab.status != '启用'">{{ cronTab.status?cronTab.status:'禁用' }}</td>
         <td>{{ cronTab.receive_mail }}</td>
         <td>{{ cronTab.frequency }}</td>
-        <td>{{ cronTab.exec_result }}</td>
+        <td [class.run-status-running]="cronTab.exec_result==true" [class.run-status-error]="cronTab.exec_result==false">
+        {{ cronTab.exec_result==false?'失败':'成功' }}</td>
         <td>{{ cronTab.last_time }}</td>
         <td>
             <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal" (click)="openModel(cronTab)">
