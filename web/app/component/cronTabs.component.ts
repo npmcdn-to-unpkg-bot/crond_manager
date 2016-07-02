@@ -118,7 +118,11 @@ export class CronTabsComponent implements OnInit{
         return ids;
     }
     openModel(model){
+        this.scriptContent = '';
         this.editModel = model;
+        var file = model.cron_file;//document.getElementById('idCronFile').value;
+        this.crondSvrService.getCrondScriptContent(this.svrId, file)
+            .then(r=>this.scriptContent = r);
     }
     addCronTab(){
         this.editModel = {'server_id':this.svrId,'jog_guid':'','cron_user':'www','status':'启用'};

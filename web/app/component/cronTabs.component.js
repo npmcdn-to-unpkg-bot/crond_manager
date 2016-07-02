@@ -105,7 +105,12 @@ var CronTabsComponent = (function () {
         return ids;
     };
     CronTabsComponent.prototype.openModel = function (model) {
+        var _this = this;
+        this.scriptContent = '';
         this.editModel = model;
+        var file = model.cron_file; //document.getElementById('idCronFile').value;
+        this.crondSvrService.getCrondScriptContent(this.svrId, file)
+            .then(function (r) { return _this.scriptContent = r; });
     };
     CronTabsComponent.prototype.addCronTab = function () {
         this.editModel = { 'server_id': this.svrId, 'jog_guid': '', 'cron_user': 'www', 'status': '启用' };
