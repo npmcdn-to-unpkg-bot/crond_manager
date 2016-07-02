@@ -23,6 +23,11 @@ return [
                 'port' => 465,
                 'encryption' => 'ssl',
             ],
+            'messageConfig' => [
+                'charset' => 'UTF-8',
+                'from' => ['yunkeadmin@mysoft.com.cn' => 'yukeadmin']
+            ]
+
         ],
     ],
 ];
