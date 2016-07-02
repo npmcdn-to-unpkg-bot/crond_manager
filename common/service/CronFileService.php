@@ -47,6 +47,31 @@ class CronFileService
         return $content;
     }
 
+    public function GetJobRecentExcuteSatus($guid)
+    {
+        $dir=\Yii::$app->basePath."/cron_logs";
+        $errorFile = $dir.'/error/'.$guid.'.log';
+        $infoFile = $dir.'/info/'.$guid.'.log';
+
+        if(file_exists($errorFile)){
+            $erroTime = date("D d M Y H:i:s",filectime($errorFile));
+        }
+        else{
+            $erroTime = null;
+        }
+        if(file_exists($infoFile)){
+            $infoTime = date("D d M Y H:i:s",filectime($infoFile));
+        }
+        else{
+            $infoTime = null;
+        }
+
+        return [
+            'error_time'=>$erroTime,
+            'info_time'=>$infoTime
+        ];
+    }
+
     public function SaveJob($guid='',$minute='*',$hour='*',$day='*',$month='*',$week='*',$command='',$scriptfile='')
     {
         $crontab = new Crontab();

@@ -96,7 +96,7 @@ class SysInfoService
             $output = 'Cpu(s):  0.0%us,  0.0%sy,  0.0%ni, 99.8%id,  0.0%wa,  0.0%hi,  0.0%si,  0.1%st';
         }
         else{
-            $process = new Process("top -n 1 |grep Cpu");
+            $process = new Process("top -bcn 1 |grep Cpu");
             $process->run();
             $error = $process->getErrorOutput();
             $output = $process->getOutput();
