@@ -17,7 +17,7 @@ class ConsoleController extends Controller
     {
         $sysInfoService = new SysInfoService();
         $result = $sysInfoService->SamplingAllServer();
-        $this->exportJson($result);
+        echo json_encode($result);
     }
 
 
