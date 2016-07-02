@@ -53,6 +53,7 @@ class CronFileService
         $errorFile = $dir.'/error/'.$guid.'.log';
         $infoFile = $dir.'/info/'.$guid.'.log';
 
+        date_default_timezone_set("PRC");
         if(file_exists($errorFile)){
             $erroTime = filectime($errorFile);
         }
@@ -121,5 +122,51 @@ class CronFileService
             'error'=>$handler->getError(),
             'output'=>$handler->getOutput(),
         ];
+    }
+
+    public function EnableJob($guid='',$enable='')
+    {
+        $crontab = new Crontab();
+        $jobs = $crontab->getJobs();
+
+        if(empty($guid)){
+            throw new \Exception('作业Guid不能为空');
+        }else{
+            if(!array_key_exists($guid,$jobs)){
+                throw new \Exception('作业不存在');
+            }
+            $job = $jobs[$guid];
+        }
+
+        $job->enable = $enable;
+        $handler = $crontab->write();
+        return [
+            'guid'=>$guid,
+            'error'=>$handler->getError(),
+            'output'=>$handler->getOutput(),
+        ];
+
+    }
+
+    public function DelJob($guid='')
+    {
+        $crontab = new Crontab();
+        $jobs = $crontab->getJobs();
+
+        if(empty($guid)){
+            throw new \Exception('作业Guid不能为空');
+        }else{
+            if(!array_key_exists($guid,$jobs)){
+                throw new \Exception('作业不存在');
+            }
+            unset($jobs[$guid]);
+        }
+        $handler = $crontab->write();
+        return [
+            'guid'=>$guid,
+            'error'=>$handler->getError(),
+            'output'=>$handler->getOutput(),
+        ];
+
     }
 }
