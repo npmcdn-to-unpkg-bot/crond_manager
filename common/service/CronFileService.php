@@ -60,7 +60,7 @@ class CronFileService
             $erroTime = null;
         }
         if(file_exists($infoFile)){
-            $infoTime = dfilectime($infoFile);
+            $infoTime = filectime($infoFile);
         }
         else{
             $infoTime = null;
