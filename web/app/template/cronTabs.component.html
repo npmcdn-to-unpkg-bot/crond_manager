@@ -1,18 +1,19 @@
 <ol class="breadcrumb" style="margin-bottom: 5px;">
-    <li><a href="#">Home</a></li>
+    <li><a href="#">首页</a></li>
     <li class="active">任务管理</li>
 </ol>
-<h1 class="title-bar" style="margin-top: 8px;margin-bottom: 8px;">任务分类</h1>
+<h1 class="title-bar" style="margin-top: 8px;margin-bottom: 8px;">分类标签</h1>
 
 <nav class="navbar navbar-light bg-faded">
     <ul class="nav navbar-nav">
+        <li class="nav-item" (click)="onSelectTag('')" [class.active]="selectedTag === ''"><a class="nav-link"  style="cursor: pointer;">所有</a></li>
         <li class="nav-item" *ngFor="let tag of tags" [class.active]="tag === selectedTag" (click)="onSelectTag(tag)">
-            <a class="nav-link" >{{ tag.tag }}</a>
+            <a class="nav-link" style="cursor: pointer;">{{ tag.tag }}</a>
         </li>
     </ul>
     <form class="form-inline navbar-form pull-right">
-        <input class="form-control" type="text" placeholder="Search" [(ngModel)]="searchKey">
-        <button class="btn btn-success-outline" type="submit"  (click)="filter()">Search</button>
+        <input class="form-control" type="text" placeholder="输入任务名称模糊查找" [(ngModel)]="searchKey">
+        <button class="btn btn-success-outline" type="submit"  (click)="filter()">查找</button>
     </form>
 </nav>
 
@@ -36,12 +37,13 @@
     <thead>
     <tr>
         <th><input type="checkbox" [(ngModel)]="selectedAll" (click)="selectAll()"/></th>
-        <th>任务类型</th>
+        <th width="90">任务类型</th>
         <th>任务名称</th>
-        <th>状态</th>
+        <th width="40">状态</th>
         <th>预警邮件</th>
         <th>定时周期</th>
-        <th>脚本</th>
+        <th>执行结果</th>
+        <th>最近执行时间</th>
         <th></th>
     </tr>
     </thead>
@@ -52,10 +54,11 @@
         </th>
         <td>{{ cronTab.tag }}</td>
         <td>{{ cronTab.cron_name }}</td>
-        <td>{{ cronTab.status }}</td>
+        <td class="run-status" [class.run-status-running]="cronTab.status == '启用'" [class.run-status-error]="cronTab.status != '启用'">{{ cronTab.status?cronTab.status:'禁用' }}</td>
         <td>{{ cronTab.receive_mail }}</td>
         <td>{{ cronTab.frequency }}</td>
-        <td>{{ cronTab.cron_file }}</td>
+        <td>{{ cronTab.exec_result }}</td>
+        <td>{{ cronTab.last_time }}</td>
         <td>
             <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal" (click)="openModel(cronTab)">
                 编辑
@@ -84,12 +87,12 @@
                         <select class="form-control" id="exampleSelect1" [(ngModel)]="editModel.tag">
                             <option>ERP接口</option>
                             <option>全民营销</option>
+                            <option>移动销售</option>
                         </select>
                     </fieldset>
                     <fieldset class="form-group">
                         <label for="exampleInputEmail1">任务名称</label>
                         <input type="text" class="form-control" id="exampleInputEmail1" placeholder="输入任务名称" [(ngModel)]="editModel.cron_name">
-                        <small class="text-muted">We'll never share your email with anyone else.</small>
                     </fieldset>
 
                     <fieldset class="form-group">
@@ -119,8 +122,8 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" (click)="saveModel()">Save changes</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" (click)="saveModel()">保存</button>
             </div>
         </div>
     </div>
