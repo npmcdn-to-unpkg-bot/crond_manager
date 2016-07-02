@@ -54,31 +54,31 @@ class CronFileService
         $infoFile = $dir.'/info/'.$guid.'.log';
 
         if(file_exists($errorFile)){
-            $erroTime = date("D d M Y H:i:s",filectime($errorFile));
+            $erroTime = filectime($errorFile);
         }
         else{
-            $erroTime = null;
+            $erroTime = '';
         }
         if(file_exists($infoFile)){
-            $infoTime = date("D d M Y H:i:s",filectime($infoFile));
+            $infoTime = filectime($infoFile);
         }
         else{
-            $infoTime = null;
+            $infoTime = '';
         }
 
         $success = false;
-        if($erroTime == null && $infoTime!=null ){
+        if($erroTime == '' && $infoTime!='' ){
             $success = true;
         }
-        if($erroTime != null && $infoTime!=null && $erroTime<$infoTime)
+        if($erroTime != '' && $infoTime!='' && $erroTime<$infoTime)
         {
             $success = true;
         }
 
         return [
             'success'=>$success,
-            'error_time'=>$erroTime==null?null:date("D d M Y H:i:s",$erroTime),
-            'info_time'=>$infoTime==null?null:date("D d M Y H:i:s",$infoTime),
+            'error_time'=>$erroTime==''?'':date("Y-m-d H:i:s",$erroTime),
+            'info_time'=>$infoTime==''?'':date("Y-m-d H:i:s",$infoTime),
         ];
     }
 

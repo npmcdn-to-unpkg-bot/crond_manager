@@ -8,6 +8,7 @@
 
 namespace app\controllers;
 
+use app\common\service\CrondServerService;
 use Crontab\Crontab;
 use Crontab\Job;
 use Symfony\Component\Process\Process;
@@ -41,11 +42,18 @@ class CronFileController extends BaseController
         }
     }
 
-    public function actionGetJobRecentExcuteSatus($guid)
+    public function actionGetJobRecentExcuteSatus()
     {
         try{
             $cronFileService = new CronFileService();
-            $result = $cronFileService->GetJobRecentExcuteSatus($guid);
+            $cronService = new CronFileService();
+            $jobs = $cronService->GetCrontab();
+            $result = [];
+            foreach($jobs as $job){
+                $guid = $job->guid;
+                $info = $cronFileService->GetJobRecentExcuteSatus($guid);
+                $result[$guid]=$info;
+            }
             $this->exportJson($result);
         }
         catch(\Exception $ex){

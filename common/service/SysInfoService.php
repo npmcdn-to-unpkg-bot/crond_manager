@@ -56,9 +56,9 @@ class SysInfoService
                 $cpu = $sysinfo->data->cpu_percent;
                 $mem = $sysinfo->data->memory_percent;
                 $logService->addLog($id,$cpu,$mem);
-                //if($cpu>\Yii::$app->params['hdmonitor_cpu_max'] || $mem>\Yii::$app->params['hdmonitor_memory_max']){
-                    $mailService->sendHWMonitorMail(\Yii::$app->params['hdmonitor_emailto'],\Yii::$app->params['hdmonitor_emailfrom'],$cpu,$mem);
-                //}
+                if($cpu>\Yii::$app->params['hdmonitor_cpu_max'] || $mem>\Yii::$app->params['hdmonitor_memory_max']){
+                    $result = $mailService->sendHWMonitorMail(\Yii::$app->params['hdmonitor_emailto'],\Yii::$app->params['hdmonitor_emailfrom'],$cpu,$mem);
+                }
             }
             catch(\Exception $ex){
                 \Yii::error('服务器性能监控采样失败：'.$ex->getMessage(),Logger::LEVEL_INFO);
