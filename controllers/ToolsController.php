@@ -115,8 +115,10 @@ class ToolsController extends BaseController
             $guidTmp = $data['data'];
             foreach($cronTabs as &$item){
                 if(array_key_exists($item['jog_guid'], $guidTmp)){
+                    $isSucc = $guidTmp[$item['jog_guid']]['success'];
                     $item['exec_result'] = $guidTmp[$item['jog_guid']]['success'];
-                    $item['last_time'] = $guidTmp[$item['jog_guid']]['error_time'];
+                    $col =$isSucc == true? 'info_time':'error_time';
+                    $item['last_time'] = $guidTmp[$item['jog_guid']][$col];
                 }
             }
         }
