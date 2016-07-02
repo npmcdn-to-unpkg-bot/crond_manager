@@ -57,7 +57,7 @@ class SysInfoService
                 $mem = $sysinfo->data->memory_percent;
                 $logService->addLog($id,$cpu,$mem);
                 //if($cpu>\Yii::$app->params['hdmonitor_cpu_max'] || $mem>\Yii::$app->params['hdmonitor_memory_max']){
-                    $mailService->sendHWMonitorMail(\Yii::$app->params['hdmonitor_email'],$cpu,$mem);
+                    $mailService->sendHWMonitorMail(\Yii::$app->params['hdmonitor_emailto'],\Yii::$app->params['hdmonitor_emailfrom'],$cpu,$mem);
                 //}
             }
             catch(\Exception $ex){
