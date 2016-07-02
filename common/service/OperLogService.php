@@ -40,6 +40,6 @@ class OperLogService
             $query2 = $query2->Where(['or',['like','oper_user',$key],['like','content',$key]]);
         }
 
-        return $query2->asArray()->all();
+        return $query2->asArray()->orderBy(['log_time'=>SORT_DESC])->all();
     }
 }

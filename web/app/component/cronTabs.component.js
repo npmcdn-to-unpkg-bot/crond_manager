@@ -108,7 +108,7 @@ var CronTabsComponent = (function () {
         this.editModel = model;
     };
     CronTabsComponent.prototype.addCronTab = function () {
-        this.editModel = { 'server_id': this.svrId, 'jog_guid': '', 'cron_user': 'www' };
+        this.editModel = { 'server_id': this.svrId, 'jog_guid': '', 'cron_user': 'www', 'status': '启用' };
     };
     CronTabsComponent.prototype.saveModel = function () {
         this.cronService.save(this.editModel)

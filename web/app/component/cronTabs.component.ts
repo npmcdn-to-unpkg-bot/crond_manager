@@ -121,7 +121,7 @@ export class CronTabsComponent implements OnInit{
         this.editModel = model;
     }
     addCronTab(){
-        this.editModel = {'server_id':this.svrId,'jog_guid':'','cron_user':'www'};
+        this.editModel = {'server_id':this.svrId,'jog_guid':'','cron_user':'www','status':'启用'};
     }
     saveModel(){
         this.cronService.save(this.editModel)
