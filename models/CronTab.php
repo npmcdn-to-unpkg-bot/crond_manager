@@ -15,6 +15,9 @@ use Yii;
  * @property string $cron_file
  * @property string $status
  * @property string $tag
+ * @property string $jog_guid
+ * @property string $receive
+ * @property string $receive_mail
  */
 class CronTab extends \yii\db\ActiveRecord
 {
@@ -34,7 +37,7 @@ class CronTab extends \yii\db\ActiveRecord
         return [
             [['server_id'], 'integer'],
             [['cron_user', 'cron_name', 'frequency', 'cron_file'], 'string', 'max' => 200],
-            [['status', 'tag'], 'string', 'max' => 100],
+            [['status', 'tag' ,'jog_guid','receive','receive_mail'], 'string', 'max' => 100],
         ];
     }
 
@@ -52,6 +55,9 @@ class CronTab extends \yii\db\ActiveRecord
             'cron_file' => 'Cron File',
             'status' => 'Status',
             'tag' => 'Tag',
+            'jog_guid'=>'jog guid',
+            'receive'=>'receive',
+            'receive_mail'=>'receive mail'
         ];
     }
 }

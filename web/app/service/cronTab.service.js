@@ -63,11 +63,12 @@ var CronTabService = (function () {
     };
     CronTabService.prototype.save = function (model) {
         var headers = new http_1.Headers();
-        headers.append('Content-Type', 'multipart/form-data');
+        //headers.append('Content-Type', 'multipart/form-data');
+        headers.append('Content-Type', 'application/json');
         return this.http
             .post(this.saveCronTabUrl, JSON.stringify(model), { headers: headers })
             .toPromise()
-            .then(function (res) { return res.json().data; })
+            .then(function (res) { return res.json(); })
             .catch(this.handleError);
     };
     CronTabService.prototype.getHeroes = function () {

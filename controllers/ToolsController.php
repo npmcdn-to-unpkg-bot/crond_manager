@@ -10,6 +10,7 @@ namespace app\controllers;
 
 use app\common\service\CrondServerService;
 use app\common\service\OperLogService;
+use yii\base\Exception;
 use yii\log\Logger;
 use yii\web\Controller;
 
@@ -188,7 +189,6 @@ class ToolsController extends BaseController
 
     public function actionSaveCronTab(){
         $strData = \yii::$app->request->getRawBody();
-        echo $strData;
         $model = json_decode($strData,true);
 
         //保存脚本
@@ -211,8 +211,19 @@ class ToolsController extends BaseController
         $parm = ['guid'=>$model['jog_guid'],'minute'=>$minute,'hour'=>$hour,'day'=>$day,
             'month'=>$month,'week'=>$week,'command'=>'','scriptfile'=>$file
         ];
-        $result = $svr->request_get($url, $parm);
+        try{
+            $result = $svr->request_get($url, $parm);
+            $rsTmp = json_decode($result);
+            if(empty($rsTmp) || $rsTmp->retCode == '-1'){
+                $this->exportJson([], -1, $rsTmp->errMsg);
+            }
+        }catch(\Exception $ex){
+            $this->exportJson([], -1, $ex->getMessage());
+        }
 
+
+        $model['jog_guid'] = $rsTmp->data[0];
+        $model['receive'] = $model['receive_mail'];
         /**
          * @var $svr CrondServerService
          */
@@ -222,8 +233,10 @@ class ToolsController extends BaseController
             $this->log('保存任务', OperLogService::OPER_STATUS_SUCC);
         }catch(\Exception $ex){
             $this->log('保存任务', OperLogService::OPER_STATUS_FAILED);
+            $this->exportJson([],-1, $ex->getMessage());
         }
 
+        $this->exportJson([], 0);
     }
 
     public function actionGetOperLogs(){
