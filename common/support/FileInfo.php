@@ -33,52 +33,52 @@ class Fileinfo
     {
         if(file_exists($this->file))
         {
-            //ÎÄ¼ş´óÓÚ1024×Ö½ÚÊ±É¾³ı²¢ÖØĞÂ´´½¨¿ÕÎÄ¼ş£º
+            //æ–‡ä»¶å¤§äº1024å­—èŠ‚æ—¶åˆ é™¤å¹¶é‡æ–°åˆ›å»ºç©ºæ–‡ä»¶ï¼š
             if(filesize($this->file)>1024)
             {
-                echo "<script>alert('File is more than 1024 bytes and will be deleted soon¡¤¡¤¡¤')</script>";
+                echo "<script>alert('File is more than 1024 bytes and will be deleted soonÂ·Â·Â·')</script>";
                 if(unlink($this->file))
                 {
-                    echo "<script>alert('File has been deleted and system will create a same file but empty soon¡¤¡¤¡¤')</script>";
+                    echo "<script>alert('File has been deleted and system will create a same file but empty soonÂ·Â·Â·')</script>";
                     touch($this->file) or die("Couldn't create ".$this->file);
                 }
 
             }
-            //»ñÈ¡ÎÄ¼şÀïµÄÄÚÈİ£¬±ÜÃâÔÙĞ´ÈëÊ±±»¸²¸Ç£º
+            //è·å–æ–‡ä»¶é‡Œçš„å†…å®¹ï¼Œé¿å…å†å†™å…¥æ—¶è¢«è¦†ç›–ï¼š
             $con = file_get_contents($this->file);
             $fo = fopen($this->file,"w") or die("Couldn't open $this->file,sorry!");
             if($fo)
             {
-                //Á¬Í¬ÎÄ¼şÖ®Ç°µÄÄÚÈİÒ»ÆğĞ´Èë£º
+                //è¿åŒæ–‡ä»¶ä¹‹å‰çš„å†…å®¹ä¸€èµ·å†™å…¥ï¼š
                 fwrite($fo,$con."<br>It's just a test by Adam Li on ".date("D d M Y H:i:s",time())) or die("$file isn't writable,sorry!");
                 fclose($fo);
             }
         }
-        else//Èç¹ûÎÄ¼ş²»´æÔÚ£¬Ö±½Ó´´½¨£¬Ğ´ÈëÄÚÈİ£º
+        else//å¦‚æœæ–‡ä»¶ä¸å­˜åœ¨ï¼Œç›´æ¥åˆ›å»ºï¼Œå†™å…¥å†…å®¹ï¼š
         {
             $this->createfile();
             $this->modifilefile();
         }
-        //ÒÔÏÂÊÇ»ñÈ¡ÎÄ¼şÊôĞÔ£º
-        //»ñÈ¡ÎÄ¼ş´óĞ¡:
-        echo "<p>ÎÄ¼ş".$this->file."´óĞ¡Îª£º<font color=red>".filesize($this->file)." bytes;</font></p>";
-        //¼ì²éÊÇ·ñÊÇÎÄ¼ş£º
+        //ä»¥ä¸‹æ˜¯è·å–æ–‡ä»¶å±æ€§ï¼š
+        //è·å–æ–‡ä»¶å¤§å°:
+        echo "<p>æ–‡ä»¶".$this->file."å¤§å°ä¸ºï¼š<font color=red>".filesize($this->file)." bytes;</font></p>";
+        //æ£€æŸ¥æ˜¯å¦æ˜¯æ–‡ä»¶ï¼š
         echo "<p>$this->file is ".(is_file($this->file)?"":"not ")."a file</p>";
-        //¼ì²éÊÇ·ñÊÇÄ¿Â¼£º
+        //æ£€æŸ¥æ˜¯å¦æ˜¯ç›®å½•ï¼š
         echo "<p>$this->file is ".(is_dir($this->file)?"":"not ")."a directory</p>";
-        //¼ì²éÎÄ¼şÊÇ·ñ¿É¶Á:
+        //æ£€æŸ¥æ–‡ä»¶æ˜¯å¦å¯è¯»:
         echo "<p>$this->file is ".(is_readable($this->file)?"":"not ")."readable</p>";
-        //¼ì²éÎÄ¼şÊÇ·ñ¿ÉĞ´£º
+        //æ£€æŸ¥æ–‡ä»¶æ˜¯å¦å¯å†™ï¼š
         echo "<p>$this->file is ".(is_writable($this->file)?"":"not ")."writable</p>";
-        //¼ì²éÎÄ¼şÊÇ·ñ¿ÉÖ´ĞĞ£º
+        //æ£€æŸ¥æ–‡ä»¶æ˜¯å¦å¯æ‰§è¡Œï¼š
         echo "<p>$this->file is ".(is_executable($this->file)?"":"not ")."executable</p>";
-        //È¡µÃÎÄ¼şµÄÉÏ´Î·ÃÎÊÊ±¼ä
+        //å–å¾—æ–‡ä»¶çš„ä¸Šæ¬¡è®¿é—®æ—¶é—´
         echo "<p>$this->file was accessed on ".date("D d M Y H:i:s",fileatime($this->file))."</p>";
-        //È¡µÃÎÄ¼şĞŞ¸ÄÊ±¼ä
+        //å–å¾—æ–‡ä»¶ä¿®æ”¹æ—¶é—´
         echo "<p>$this->file was modified on ".date("D d M Y H:i:s",filemtime($this->file))."</p>";
-        //È¡µÃÎÄ¼şµÄ inode ĞŞ¸ÄÊ±¼ä
+        //å–å¾—æ–‡ä»¶çš„ inode ä¿®æ”¹æ—¶é—´
         echo "<p>$this->file was changed on ".date("D d M Y H:i:s",filectime($this->file))."</p>";
-        //ÏÔÊ¾´ËÊ±ÎÄ¼şÀïµÄËùÓĞÄÚÈİ£º
-        echo "<p>ÎÄ¼şÀïµÄÄÚÈİÊÇ£º<font color=red>".file_get_contents($this->file)."</font></p>";
+        //æ˜¾ç¤ºæ­¤æ—¶æ–‡ä»¶é‡Œçš„æ‰€æœ‰å†…å®¹ï¼š
+        echo "<p>æ–‡ä»¶é‡Œçš„å†…å®¹æ˜¯ï¼š<font color=red>".file_get_contents($this->file)."</font></p>";
     }
 }

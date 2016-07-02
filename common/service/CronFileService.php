@@ -47,6 +47,41 @@ class CronFileService
         return $content;
     }
 
+    public function GetJobRecentExcuteSatus($guid)
+    {
+        $dir=\Yii::$app->basePath."/cron_logs";
+        $errorFile = $dir.'/error/'.$guid.'.log';
+        $infoFile = $dir.'/info/'.$guid.'.log';
+
+        if(file_exists($errorFile)){
+            $erroTime = date("D d M Y H:i:s",filectime($errorFile));
+        }
+        else{
+            $erroTime = null;
+        }
+        if(file_exists($infoFile)){
+            $infoTime = date("D d M Y H:i:s",filectime($infoFile));
+        }
+        else{
+            $infoTime = null;
+        }
+
+        $success = false;
+        if($erroTime == null && $infoTime!=null ){
+            $success = true;
+        }
+        if($erroTime != null && $infoTime!=null && $erroTime<$infoTime)
+        {
+            $success = true;
+        }
+
+        return [
+            'success'=>$success,
+            'error_time'=>$erroTime==null?null:date("D d M Y H:i:s",$erroTime),
+            'info_time'=>$infoTime==null?null:date("D d M Y H:i:s",$infoTime),
+        ];
+    }
+
     public function SaveJob($guid='',$minute='*',$hour='*',$day='*',$month='*',$week='*',$command='',$scriptfile='')
     {
         $crontab = new Crontab();
@@ -70,7 +105,7 @@ class CronFileService
         }
         $dirInfo=\Yii::$app->basePath."/cron_logs/info/".$guid;
         $dirError=\Yii::$app->basePath."/cron_logs/error/".$guid;
-        $cmdTemplate = ' . /etc/profile;echo starton:;/bin/date;%s;echo endon:;/bin/date 1>%s.log 2>%s.log';
+        $cmdTemplate = ' . /etc/profile;%s 1>>%s.log 2>>%s.log';
         $command = sprintf($cmdTemplate,$command,$dirInfo,$dirError);
 
 

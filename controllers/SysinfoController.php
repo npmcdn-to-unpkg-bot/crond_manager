@@ -19,24 +19,39 @@ class SysinfoController extends BaseController
 {
     public function actionGetSysInfo()
     {
-        $sysInfoService = new SysInfoService();
-        $result = $sysInfoService->GetSysInfo();
-        $this->exportJson($result);
+        try{
+            $sysInfoService = new SysInfoService();
+            $result = $sysInfoService->GetSysInfo();
+            $this->exportJson($result);
+        }
+        catch(\Exception $ex){
+            $this->exportJson([$ex->getMessage()],-1,$ex->getMessage(),false);
+        }
     }
 
     public function actionSampleSysInfo()
     {
-        $sysInfoService = new SysInfoService();
-        $result = $sysInfoService->SamplingSysinfo();
-        $this->exportJson($result);
+        try{
+            $sysInfoService = new SysInfoService();
+            $result = $sysInfoService->SamplingSysinfo();
+            $this->exportJson($result);
+        }
+        catch(\Exception $ex){
+            $this->exportJson([$ex->getMessage()],-1,$ex->getMessage(),false);
+        }
     }
 
 
     public function actionSampleAllSysInfo()
     {
-        $sysInfoService = new SysInfoService();
-        $result = $sysInfoService->SamplingAllServer();
-        $this->exportJson($result);
+        try{
+            $sysInfoService = new SysInfoService();
+            $result = $sysInfoService->SamplingAllServer();
+            $this->exportJson($result);
+        }
+        catch(\Exception $ex){
+            $this->exportJson([$ex->getMessage()],-1,$ex->getMessage(),false);
+        }
     }
 
 

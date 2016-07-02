@@ -10,6 +10,7 @@ namespace app\common\service;
 
 use app\models\CrondServerPerfLog;
 use Symfony\Component\Process\Process;
+use yii\log\Logger;
 
 class SysInfoService
 {
@@ -49,8 +50,15 @@ class SysInfoService
             $host = $svrInfo['api_host'];
             $id = $svrInfo['id'];
             $url = $host.'/index.php?r=sysinfo/sample-sys-info';
-            $sysinfo = json_decode($serverService->request_get($url, []));
-            $logService->addLog($id,$sysinfo->data->cpu_percent,$sysinfo->data->memory_percent);
+            try{
+                $sysinfo = json_decode($serverService->request_get($url, []));
+                $logService->addLog($id,$sysinfo->data->cpu_percent,$sysinfo->data->memory_percent);
+
+            }
+            catch(\Exception $ex){
+                \Yii::getLogger()->log('服务器性能监控采样失败：'.$ex->getMessage(),Logger::LEVEL_INFO);
+            }
+
         }
     }
 
@@ -88,7 +96,7 @@ class SysInfoService
             $output = 'Cpu(s):  0.0%us,  0.0%sy,  0.0%ni, 99.8%id,  0.0%wa,  0.0%hi,  0.0%si,  0.1%st';
         }
         else{
-            $process = new Process("top -n 1 |grep Cpu");
+            $process = new Process("top -bcn 1 |grep Cpu");
             $process->run();
             $error = $process->getErrorOutput();
             $output = $process->getOutput();
