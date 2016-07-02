@@ -66,9 +66,19 @@ class CronFileService
             $infoTime = null;
         }
 
+        $success = false;
+        if($erroTime == null && $infoTime!=null ){
+            $success = true;
+        }
+        if($erroTime != null && $infoTime!=null && $erroTime<$infoTime)
+        {
+            $success = true;
+        }
+
         return [
-            'error_time'=>$erroTime,
-            'info_time'=>$infoTime
+            'success'=>$success,
+            'error_time'=>$erroTime==null?null:date("D d M Y H:i:s",$erroTime),
+            'info_time'=>$infoTime==null?null:date("D d M Y H:i:s",$infoTime),
         ];
     }
 

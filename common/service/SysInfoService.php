@@ -53,10 +53,10 @@ class SysInfoService
             try{
                 $sysinfo = json_decode($serverService->request_get($url, []));
                 $logService->addLog($id,$sysinfo->data->cpu_percent,$sysinfo->data->memory_percent);
+
             }
             catch(\Exception $ex){
                 \Yii::getLogger()->log('服务器性能监控采样失败：'.$ex->getMessage(),Logger::LEVEL_INFO);
-
             }
 
         }
