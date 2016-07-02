@@ -54,13 +54,13 @@ class CronFileService
         $infoFile = $dir.'/info/'.$guid.'.log';
 
         if(file_exists($errorFile)){
-            $erroTime = date("D d M Y H:i:s",filectime($errorFile));
+            $erroTime = filectime($errorFile);
         }
         else{
             $erroTime = null;
         }
         if(file_exists($infoFile)){
-            $infoTime = date("D d M Y H:i:s",filectime($infoFile));
+            $infoTime = dfilectime($infoFile);
         }
         else{
             $infoTime = null;
