@@ -77,8 +77,8 @@ class CronFileService
 
         return [
             'success'=>$success,
-            'error_time'=>$erroTime==null?null:date("D d M Y H:i:s",$erroTime),
-            'info_time'=>$infoTime==null?null:date("D d M Y H:i:s",$infoTime),
+            'error_time'=>$erroTime==null?null:date("Y-m-d H:i:s",$erroTime),
+            'info_time'=>$infoTime==null?null:date("Y-m-d H:i:s",$infoTime),
         ];
     }
 
