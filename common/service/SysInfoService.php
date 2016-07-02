@@ -8,7 +8,7 @@
 
 namespace app\common\service;
 
-use app\models\CrondServerPerfLog;
+use app\common\service\MailService;
 use Symfony\Component\Process\Process;
 use yii\log\Logger;
 
@@ -44,6 +44,7 @@ class SysInfoService
          * @var $svr CrondServerService
          */
         $serverService = new CrondServerService();
+        $mailService = new MailService();
         $logService = new CrondServerPerfLogService();
         $servers = $serverService->getCrondServers();
         foreach($servers as $svrInfo){
@@ -52,11 +53,15 @@ class SysInfoService
             $url = $host.'/index.php?r=sysinfo/sample-sys-info';
             try{
                 $sysinfo = json_decode($serverService->request_get($url, []));
-                $logService->addLog($id,$sysinfo->data->cpu_percent,$sysinfo->data->memory_percent);
-
+                $cpu = $sysinfo->data->cpu_percent;
+                $mem = $sysinfo->data->memory_percent;
+                $logService->addLog($id,$cpu,$mem);
+                //if($cpu>\Yii::$app->params['hdmonitor_cpu_max'] || $mem>\Yii::$app->params['hdmonitor_memory_max']){
+                    $mailService->sendHWMonitorMail(\Yii::$app->params['hdmonitor_email'],$cpu,$mem);
+                //}
             }
             catch(\Exception $ex){
-                \Yii::getLogger()->log('服务器性能监控采样失败：'.$ex->getMessage(),Logger::LEVEL_INFO);
+                \Yii::error('服务器性能监控采样失败：'.$ex->getMessage(),Logger::LEVEL_INFO);
             }
 
         }
@@ -93,7 +98,7 @@ class SysInfoService
         }
 
         if(\Yii::$app->params['debug']){
-            $output = 'Cpu(s):  0.0%us,  0.0%sy,  0.0%ni, 99.8%id,  0.0%wa,  0.0%hi,  0.0%si,  0.1%st';
+            $output = 'Cpu(s):  99.0%us,  0.0%sy,  0.0%ni, 0.1%id,  0.0%wa,  0.0%hi,  0.0%si,  0.1%st';
         }
         else{
             $process = new Process("top -bcn 1 |grep Cpu");
@@ -119,7 +124,7 @@ class SysInfoService
         }
 
         return [
-            'cpu_model'=>$cpuModel,
+            'cpu_model'=>$cpuModel.'（'.$cpuPercent.'%）',
             'cpu_percent' =>$cpuPercent,
             'error'=>$errorInfo,
         ];
