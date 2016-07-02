@@ -26,6 +26,7 @@ class MailService {
             ->setFrom($fromMail)
         ->setSubject("明源云客队列服务器异常警告")
         ->setTextBody(sprintf('队列服务器异常，请及时处理。CPU：%s，内存：%s',$cpuPercent.'%',$memoryPercent.'%'));
-       return $mail->send();
+        $result = $mail->send();
+        return $result;
     }  
 }
