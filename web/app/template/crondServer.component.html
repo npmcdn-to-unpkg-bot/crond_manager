@@ -1,26 +1,24 @@
-<ol class="breadcrumb" style="margin-bottom: 5px;">
-    <li><a href="#">Home</a></li>
-    <li><a href="#">Library</a></li>
-    <li class="active">Data</li>
-</ol>
 
-<div style="height: 50px;    border: 1px solid #E1E6EB;padding:5px 8px 0;">
+
+<div style="height: 50px;    border: 1px solid #E1E6EB;padding:5px 8px 0;margin:2px 0px 5px;">
     <span style="padding-top:9px;display:inline-block;">您目前共有 {{ crondServers.length }} 个实例</span>
     <div class="pull-right">
-        <button type="button" class="btn btn-info" (click)="viewOperLog()">查看日志</button>
+        <button type="button" class="btn btn-info btn-sm" (click)="viewOperLog()" style="margin-top: 4px;">查看日志</button>
     </div>
 </div>
 
-<h5 bo-text=" 'ecs.home.region.lb.section_resource' | translate">我的服务器</h5>
+<h1 class="title-bar" style="margin-top: 8px;margin-bottom: 8px;">我的服务器</h1>
+
 <div *ngFor="let crondSvr of crondServers" class="col-sm-12 region-box" style="border:1px solid #ccd6e0;padding:0;margin:0 2px;margin-bottom:8px;">
     <div class="region-bar">
         <a (click)="gotoDetail(crondSvr)" style="cursor: pointer;">{{ crondSvr.name }}</a>
     </div>
     <div class="region-content">
-        <p>服务器状态:<span>{{ crondSvr.cpu_model== '--'?'异常':'正常' }}</span></p>
-        <p>CPU:<span>{{ crondSvr.cpu_model }}</span></p>
-        <p>内存:<span>{{ crondSvr.memory }}</span></p>
-        <p>磁盘:<span>{{ crondSvr.disk }}</span></p>
+        <p *ngIf="crondSvr.cpu_model== '--'">服务器状态：<span class="run-status run-status-error"><i></i>异常</span></p>
+        <p *ngIf="crondSvr.cpu_model!= '--'">服务器状态：<span class="run-status run-status-running"><i></i>正常</span></p>
+        <p>CPU：<span>{{ crondSvr.cpu_model }}</span></p>
+        <p>内存：<span>{{ crondSvr.memory }}</span></p>
+        <p>磁盘：<span>{{ crondSvr.disk== '--'?'--':'10GB/50GB'}}</span></p>
 
     </div>
 </div>

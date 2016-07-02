@@ -1,3 +1,7 @@
+<ol class="breadcrumb" style="margin-bottom: 5px;">
+    <li><a href="#">Home</a></li>
+    <li class="active">任务管理</li>
+</ol>
 <h1 class="title-bar" style="margin-top: 8px;margin-bottom: 8px;">任务分类</h1>
 
 <nav class="navbar navbar-light bg-faded">
@@ -15,7 +19,7 @@
 
 <h1 class="title-bar" style="margin-top: 8px;margin-bottom: 8px;">任务列表</h1>
 <div style="float:right">
-    <button type="button" class="btn btn-success">新增</button>
+    <button type="button" class="btn btn-success" (click)="addCronTab()" data-toggle="modal" data-target="#myModal">新增</button>
     <div class="btn-group">
         <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             ...
@@ -34,7 +38,8 @@
         <th><input type="checkbox" [(ngModel)]="selectedAll" (click)="selectAll()"/></th>
         <th>任务类型</th>
         <th>任务名称</th>
-        <th>用户</th>
+        <th>状态</th>
+        <th>预警邮件</th>
         <th>定时周期</th>
         <th>脚本</th>
         <th></th>
@@ -47,7 +52,8 @@
         </th>
         <td>{{ cronTab.tag }}</td>
         <td>{{ cronTab.cron_name }}</td>
-        <td>{{ cronTab.cron_user }}</td>
+        <td>{{ cronTab.status }}</td>
+        <td>{{ cronTab.receive_mail }}</td>
         <td>{{ cronTab.frequency }}</td>
         <td>{{ cronTab.cron_file }}</td>
         <td>
@@ -85,15 +91,16 @@
                         <input type="text" class="form-control" id="exampleInputEmail1" placeholder="输入任务名称" [(ngModel)]="editModel.cron_name">
                         <small class="text-muted">We'll never share your email with anyone else.</small>
                     </fieldset>
-                    <fieldset class="form-group">
-                        <label for="exampleSelect1">用户</label>
-                        <select class="form-control" id="exampleSelect1" [(ngModel)]="editModel.cron_user">
-                            <option>www</option>
-                        </select>
-                    </fieldset>
+
                     <fieldset class="form-group">
                         <label for="exampleSelect1">定时周期</label>
-                        <input type="text" class="form-control" id="exampleInputEmail1" placeholder="输入任务名称" [(ngModel)]="editModel.frequency">
+                        <input type="text" class="form-control" id="exampleInputEmail1" placeholder="输入定时周期" [(ngModel)]="editModel.frequency">
+
+                    </fieldset>
+
+                    <fieldset class="form-group">
+                        <label for="exampleSelect1">预警邮件</label>
+                        <input type="text" class="form-control" id="exampleInputEmail1" placeholder="邮件地址" [(ngModel)]="editModel.receive_mail">
 
                     </fieldset>
 

@@ -3,7 +3,7 @@
  */
 import { Component, EventEmitter, Input, OnInit, OnDestroy, Output } from '@angular/core';
 
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute,Router } from '@angular/router';
 
 import{CronTabModel} from '../model/cronTabModel';
 import{CronTabService} from '../service/cronTab.service';
@@ -32,7 +32,8 @@ export class CronTabsComponent implements OnInit{
     constructor(
         private cronService: CronTabService,
         private crondSvrService: CrondServerService,
-        private route: ActivatedRoute
+        private route: ActivatedRoute,
+        private router:Router
     ) {
     }
 
@@ -59,7 +60,7 @@ export class CronTabsComponent implements OnInit{
     }
 
     filter(){
-        let tag  = this.selectedTag ? this.selectedTag.tag : {};
+        let tag  = this.selectedTag ? this.selectedTag.tag : '';
         let key = this.searchKey;
         this.cronService.getCronTabs(this.svrId, tag, key)
             .then(r=>this.cronTabs = r);
@@ -91,15 +92,18 @@ export class CronTabsComponent implements OnInit{
 
     enable(){
         let ids = this.getSelectedIds();
-        this.cronService.enable(ids);
+        this.cronService.enable(ids)
+            .then(r=>{this.filter()});
     }
     disable(){
         let ids = this.getSelectedIds();
-        this.cronService.disable(ids);
+        this.cronService.disable(ids)
+            .then(r=>{this.filter()});
     }
     delete(){
         let ids = this.getSelectedIds();
-        this.cronService.deleteByIds(ids);
+        this.cronService.deleteByIds(ids)
+            .then(r=>{this.filter()});
     }
 
     getSelectedIds(){
@@ -113,10 +117,19 @@ export class CronTabsComponent implements OnInit{
         console.info(JSON.stringify(ids))
         return ids;
     }
-    openModel($model){
-        this.editModel = $model;
+    openModel(model){
+        this.editModel = model;
+    }
+    addCronTab(){
+        this.editModel = {'server_id':this.svrId,'jog_guid':'','cron_user':'www'};
     }
     saveModel(){
-        this.cronService.save(this.editModel);
+        this.cronService.save(this.editModel)
+            .then(r=>{
+            });
+        $('#myModal').modal('hide');
+        this.filter();
+        //this.router.navigate(['/crontabs',this.svrId]);
     }
+
 }

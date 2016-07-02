@@ -64,13 +64,14 @@ export class CronTabService {
             .toPromise()
             .then(r=> r.json());
     }
-    save(model){
+    save(model):Promise<string>{
         let headers = new Headers();
-        headers.append('Content-Type', 'multipart/form-data');
+        //headers.append('Content-Type', 'multipart/form-data');
+        headers.append('Content-Type', 'application/json');
         return this.http
             .post(this.saveCronTabUrl, JSON.stringify(model), {headers: headers})
             .toPromise()
-            .then(res => res.json().data)
+            .then(res => res.json())
             .catch(this.handleError);
     }
 

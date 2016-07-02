@@ -16,6 +16,7 @@ AppAsset::register($this);
 <html lang="<?= Yii::$app->language ?>">
 <head>
     <script>document.write('<base href="' + document.location + '" />');</script>
+    <script src="/js/jquery.min.js" type="application/javascript"></script>
     <meta charset="<?= Yii::$app->charset ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <?= Html::csrfMetaTags() ?>
@@ -26,7 +27,7 @@ AppAsset::register($this);
 <body>
 <?php $this->beginBody() ?>
 
-<div class="wrap container">
+<div class="wrap0 container" style="padding-top:70px;">
     <?php
     NavBar::begin([
         'brandLabel' => '调度任务管理',
@@ -63,7 +64,7 @@ AppAsset::register($this);
     </div>
 </div>
 
-<footer class="footer">
+<footer class="footer" style="display: none;">
     <div class="container">
         <p class="pull-left">&copy; MyCloud <?= date('Y') ?></p>
 

@@ -9,10 +9,11 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
  */
 var core_1 = require('@angular/core');
 var CronTabsComponent = (function () {
-    function CronTabsComponent(cronService, crondSvrService, route) {
+    function CronTabsComponent(cronService, crondSvrService, route, router) {
         this.cronService = cronService;
         this.crondSvrService = crondSvrService;
         this.route = route;
+        this.router = router;
         this.cronTabs = [];
         this.tags = [];
         this.selectedTag = null;
@@ -49,7 +50,7 @@ var CronTabsComponent = (function () {
     };
     CronTabsComponent.prototype.filter = function () {
         var _this = this;
-        var tag = this.selectedTag ? this.selectedTag.tag : {};
+        var tag = this.selectedTag ? this.selectedTag.tag : '';
         var key = this.searchKey;
         this.cronService.getCronTabs(this.svrId, tag, key)
             .then(function (r) { return _this.cronTabs = r; });
@@ -75,16 +76,22 @@ var CronTabsComponent = (function () {
         });
     };
     CronTabsComponent.prototype.enable = function () {
+        var _this = this;
         var ids = this.getSelectedIds();
-        this.cronService.enable(ids);
+        this.cronService.enable(ids)
+            .then(function (r) { _this.filter(); });
     };
     CronTabsComponent.prototype.disable = function () {
+        var _this = this;
         var ids = this.getSelectedIds();
-        this.cronService.disable(ids);
+        this.cronService.disable(ids)
+            .then(function (r) { _this.filter(); });
     };
     CronTabsComponent.prototype.delete = function () {
+        var _this = this;
         var ids = this.getSelectedIds();
-        this.cronService.deleteByIds(ids);
+        this.cronService.deleteByIds(ids)
+            .then(function (r) { _this.filter(); });
     };
     CronTabsComponent.prototype.getSelectedIds = function () {
         var ids = [];
@@ -97,11 +104,19 @@ var CronTabsComponent = (function () {
         console.info(JSON.stringify(ids));
         return ids;
     };
-    CronTabsComponent.prototype.openModel = function ($model) {
-        this.editModel = $model;
+    CronTabsComponent.prototype.openModel = function (model) {
+        this.editModel = model;
+    };
+    CronTabsComponent.prototype.addCronTab = function () {
+        this.editModel = { 'server_id': this.svrId, 'jog_guid': '', 'cron_user': 'www' };
     };
     CronTabsComponent.prototype.saveModel = function () {
-        this.cronService.save(this.editModel);
+        this.cronService.save(this.editModel)
+            .then(function (r) {
+        });
+        $('#myModal').modal('hide');
+        this.filter();
+        //this.router.navigate(['/crontabs',this.svrId]);
     };
     CronTabsComponent = __decorate([
         core_1.Component({

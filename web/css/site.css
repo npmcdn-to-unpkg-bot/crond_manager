@@ -1,6 +1,7 @@
 html,
 body {
     height: 100%;
+    font-size: 12px!important;
 }
 
 .wrap {
@@ -102,4 +103,26 @@ a.desc:after {
     padding-top: 14px!important;
     background: url(image/cloud.png) no-repeat left 10px;
     padding-left: 25px;
+}
+
+.run-status i {
+    width: 16px;
+    height: 16px;
+    display: -moz-inline-stack;
+    display: inline-block;
+    vertical-align: middle;
+    zoom: 1;
+    border-radius: 16px;
+    vertical-align: middle;
+    margin-top: -1px;
+    background-position: 24px 24px;
+    background-repeat: no-repeat;
+    background-image: url(image/ecs-icons.png);
+}
+
+.run-status-running i {
+    background-position: -61px -4px;
+}
+.run-status-error i {
+    background-position: -61px -28px;
 }
