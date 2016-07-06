@@ -3,8 +3,8 @@
 return [
     'adminEmail' => 'admin@example.com',
     'debug'=>false,
-    'hdmonitor_emailto'=>'yuzy@mysoft.com.cn',
-    'hdmonitor_emailfrom'=>'admin@mysoft.com.cn',
+    'hdmonitor_emailto'=>'',
+    'hdmonitor_emailfrom'=>'',
     'hdmonitor_cpu_max'=>90,
     'hdmonitor_memory_max'=>99,
     'components' => [
@@ -17,15 +17,15 @@ return [
             'useFileTransport' => false,
             'transport' => [
                 'class' => 'Swift_SmtpTransport',
-                'host' => 'smtp.exmail.qq.com',
-                'username' => 'yunkeadmin@mysoft.com.cn',
-                'password' => 'Myscrm123456',
+                'host' => '',
+                'username' => '',
+                'password' => '',
                 'port' => 465,
                 'encryption' => 'ssl',
             ],
             'messageConfig' => [
                 'charset' => 'UTF-8',
-                'from' => ['yunkeadmin@mysoft.com.cn' => 'yukeadmin']
+                'from' => ['' => '']
             ]
 
         ],
